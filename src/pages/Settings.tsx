@@ -46,15 +46,6 @@ export default function Settings() {
   const [showPaymentModal, setShowPaymentModal] = useState(false)
   const [showAIModal, setShowAIModal] = useState(false)
 
-  const getPaymentMethodsSummary = () => {
-    const methods = []
-    if (paymentMethods.debitCredit) methods.push('Debit/Credit')
-    if (paymentMethods.achTransfer) methods.push('ACH')
-    if (paymentMethods.none) methods.push('None')
-    if (paymentMethods.other) methods.push('Other')
-    return methods.length > 0 ? methods.join(', ') : 'None selected'
-  }
-
   return (
     <div className={styles.container}>
       <h1 className={styles.pageTitle}>Settings/Presets or defaults values</h1>
