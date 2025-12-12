@@ -7,16 +7,12 @@ interface PricingPresetsModalProps {
   materialMarkup: string
   laborMaterialMarkup: string
   otherMarkup: string
-  minProfitMargin: string
-  maxProfitMargin: string
   onSave: (data: {
     markupOption: string
     laborMarkup: string
     materialMarkup: string
     laborMaterialMarkup: string
     otherMarkup: string
-    minProfitMargin: string
-    maxProfitMargin: string
   }) => void
   onClose: () => void
 }
@@ -27,8 +23,6 @@ export default function PricingPresetsModal({
   materialMarkup: initialMaterialMarkup,
   laborMaterialMarkup: initialLaborMaterialMarkup,
   otherMarkup: initialOtherMarkup,
-  minProfitMargin: initialMinProfitMargin,
-  maxProfitMargin: initialMaxProfitMargin,
   onSave,
   onClose
 }: PricingPresetsModalProps) {
@@ -37,8 +31,6 @@ export default function PricingPresetsModal({
   const [materialMarkup, setMaterialMarkup] = useState(initialMaterialMarkup)
   const [laborMaterialMarkup, setLaborMaterialMarkup] = useState(initialLaborMaterialMarkup)
   const [otherMarkup, setOtherMarkup] = useState(initialOtherMarkup)
-  const [minProfitMargin, setMinProfitMargin] = useState(initialMinProfitMargin)
-  const [maxProfitMargin, setMaxProfitMargin] = useState(initialMaxProfitMargin)
 
   useEffect(() => {
     setMarkupOption(initialMarkupOption)
@@ -46,9 +38,7 @@ export default function PricingPresetsModal({
     setMaterialMarkup(initialMaterialMarkup)
     setLaborMaterialMarkup(initialLaborMaterialMarkup)
     setOtherMarkup(initialOtherMarkup)
-    setMinProfitMargin(initialMinProfitMargin)
-    setMaxProfitMargin(initialMaxProfitMargin)
-  }, [initialMarkupOption, initialLaborMarkup, initialMaterialMarkup, initialLaborMaterialMarkup, initialOtherMarkup, initialMinProfitMargin, initialMaxProfitMargin])
+  }, [initialMarkupOption, initialLaborMarkup, initialMaterialMarkup, initialLaborMaterialMarkup, initialOtherMarkup])
 
   const handleSave = () => {
     onSave({
@@ -56,9 +46,7 @@ export default function PricingPresetsModal({
       laborMarkup,
       materialMarkup,
       laborMaterialMarkup,
-      otherMarkup,
-      minProfitMargin,
-      maxProfitMargin
+      otherMarkup
     })
   }
 

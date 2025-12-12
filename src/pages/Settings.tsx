@@ -3,6 +3,10 @@ import GeneralSettingsModal from '../components/GeneralSettingsModal'
 import PricingPresetsModal from '../components/PricingPresetsModal'
 import PaymentPresetsModal from '../components/PaymentPresetsModal'
 import AIPersonalityModal from '../components/AIPersonalityModal'
+import ProfitMarginModal from '../components/ProfitMarginModal'
+import PaymentTermsModal from '../components/PaymentTermsModal'
+import DepositModal from '../components/DepositModal'
+import TaxRateModal from '../components/TaxRateModal'
 import styles from './Settings.module.css'
 
 export default function Settings() {
@@ -43,6 +47,10 @@ export default function Settings() {
   // Modal states
   const [showGeneralModal, setShowGeneralModal] = useState(false)
   const [showPricingModal, setShowPricingModal] = useState(false)
+  const [showProfitMarginModal, setShowProfitMarginModal] = useState(false)
+  const [showPaymentTermsModal, setShowPaymentTermsModal] = useState(false)
+  const [showDepositModal, setShowDepositModal] = useState(false)
+  const [showTaxRateModal, setShowTaxRateModal] = useState(false)
   const [showPaymentModal, setShowPaymentModal] = useState(false)
   const [showAIModal, setShowAIModal] = useState(false)
 
@@ -87,40 +95,12 @@ export default function Settings() {
 
           <div className={styles.settingRow}>
             <div className={styles.settingInfo}>
-              <h3 className={styles.settingTitle}>Minimum profit margin per project</h3>
-              <p className={styles.settingDescription}>Set the minimum profit margin percentage</p>
+              <h3 className={styles.settingTitle}>Profit margin per project</h3>
+              <p className={styles.settingDescription}>Minimum: {minProfitMargin}, Maximum: {maxProfitMargin}</p>
             </div>
-            <select
-              className={styles.select}
-              value={minProfitMargin}
-              onChange={(e) => setMinProfitMargin(e.target.value)}
-            >
-              <option>10%</option>
-              <option>15%</option>
-              <option>20%</option>
-              <option>25%</option>
-              <option>30%</option>
-            </select>
-          </div>
-
-          <div className={styles.divider}></div>
-
-          <div className={styles.settingRow}>
-            <div className={styles.settingInfo}>
-              <h3 className={styles.settingTitle}>Maximum profit margin per project</h3>
-              <p className={styles.settingDescription}>Set the maximum profit margin percentage</p>
-            </div>
-            <select
-              className={styles.select}
-              value={maxProfitMargin}
-              onChange={(e) => setMaxProfitMargin(e.target.value)}
-            >
-              <option>50%</option>
-              <option>60%</option>
-              <option>70%</option>
-              <option>80%</option>
-              <option>90%</option>
-            </select>
+            <button className={styles.customizeButton} onClick={() => setShowProfitMarginModal(true)}>
+              Customize
+            </button>
           </div>
         </div>
       </section>
@@ -135,54 +115,26 @@ export default function Settings() {
               <h3 className={styles.settingTitle}>Payment terms</h3>
               <p className={styles.settingDescription}>Set default payment terms for invoices</p>
             </div>
-            <select
-              className={styles.select}
-              value={paymentTerms}
-              onChange={(e) => setPaymentTerms(e.target.value)}
-            >
-              <option>(Net 15/30/45/60)</option>
-              <option>Net 15</option>
-              <option>Net 30</option>
-              <option>Net 45</option>
-              <option>Net 60</option>
-            </select>
+            <button className={styles.customizeButton} onClick={() => setShowPaymentTermsModal(true)}>
+              {paymentTerms}
+            </button>
           </div>
 
           <div className={styles.divider}></div>
 
           <div className={styles.settingRow}>
             <div className={styles.settingInfo}>
-              <h3 className={styles.settingTitle}>Require deposit</h3>
-              <p className={styles.settingDescription}>Whether to require a deposit by default</p>
+              <h3 className={styles.settingTitle}>Deposit</h3>
+              <p className={styles.settingDescription}>
+                {requireDeposit === 'Yes' 
+                  ? `Require deposit: ${requireDeposit}, Percentage: ${depositPercentage}`
+                  : `Require deposit: ${requireDeposit}`
+                }
+              </p>
             </div>
-            <select
-              className={styles.select}
-              value={requireDeposit}
-              onChange={(e) => setRequireDeposit(e.target.value)}
-            >
-              <option>Yes</option>
-              <option>No</option>
-            </select>
-          </div>
-
-          <div className={styles.divider}></div>
-
-          <div className={styles.settingRow}>
-            <div className={styles.settingInfo}>
-              <h3 className={styles.settingTitle}>Deposit percentage</h3>
-              <p className={styles.settingDescription}>Default deposit percentage when required</p>
-            </div>
-            <select
-              className={styles.select}
-              value={depositPercentage}
-              onChange={(e) => setDepositPercentage(e.target.value)}
-            >
-              <option>10%</option>
-              <option>15%</option>
-              <option>20%</option>
-              <option>25%</option>
-              <option>30%</option>
-            </select>
+            <button className={styles.customizeButton} onClick={() => setShowDepositModal(true)}>
+              Customize
+            </button>
           </div>
 
           <div className={styles.divider}></div>
@@ -192,16 +144,9 @@ export default function Settings() {
               <h3 className={styles.settingTitle}>Tax rate</h3>
               <p className={styles.settingDescription}>Default tax rate for calculations</p>
             </div>
-            <select
-              className={styles.select}
-              value={taxRate}
-              onChange={(e) => setTaxRate(e.target.value)}
-            >
-              <option>5.87%</option>
-              <option>4.5%</option>
-              <option>6.0%</option>
-              <option>7.0%</option>
-            </select>
+            <button className={styles.customizeButton} onClick={() => setShowTaxRateModal(true)}>
+              {taxRate}
+            </button>
           </div>
 
           <div className={styles.divider}></div>
@@ -274,34 +219,70 @@ export default function Settings() {
           materialMarkup={materialMarkup}
           laborMaterialMarkup={laborMaterialMarkup}
           otherMarkup={otherMarkup}
-          minProfitMargin={minProfitMargin}
-          maxProfitMargin={maxProfitMargin}
           onSave={(data) => {
             setMarkupOption(data.markupOption)
             setLaborMarkup(data.laborMarkup)
             setMaterialMarkup(data.materialMarkup)
             setLaborMaterialMarkup(data.laborMaterialMarkup)
             setOtherMarkup(data.otherMarkup)
-            setMinProfitMargin(data.minProfitMargin)
-            setMaxProfitMargin(data.maxProfitMargin)
             setShowPricingModal(false)
           }}
           onClose={() => setShowPricingModal(false)}
         />
       )}
 
-      {showPaymentModal && (
-        <PaymentPresetsModal
-          paymentTerms={paymentTerms}
+      {showProfitMarginModal && (
+        <ProfitMarginModal
+          minValue={minProfitMargin}
+          maxValue={maxProfitMargin}
+          onSave={(data) => {
+            setMinProfitMargin(data.minValue)
+            setMaxProfitMargin(data.maxValue)
+            setShowProfitMarginModal(false)
+          }}
+          onClose={() => setShowProfitMarginModal(false)}
+        />
+      )}
+
+      {showPaymentTermsModal && (
+        <PaymentTermsModal
+          value={paymentTerms}
+          onSave={(value) => {
+            setPaymentTerms(value)
+            setShowPaymentTermsModal(false)
+          }}
+          onClose={() => setShowPaymentTermsModal(false)}
+        />
+      )}
+
+      {showDepositModal && (
+        <DepositModal
           requireDeposit={requireDeposit}
           depositPercentage={depositPercentage}
-          taxRate={taxRate}
-          paymentMethods={paymentMethods}
           onSave={(data) => {
-            setPaymentTerms(data.paymentTerms)
             setRequireDeposit(data.requireDeposit)
             setDepositPercentage(data.depositPercentage)
-            setTaxRate(data.taxRate)
+            setShowDepositModal(false)
+          }}
+          onClose={() => setShowDepositModal(false)}
+        />
+      )}
+
+      {showTaxRateModal && (
+        <TaxRateModal
+          value={taxRate}
+          onSave={(value) => {
+            setTaxRate(value)
+            setShowTaxRateModal(false)
+          }}
+          onClose={() => setShowTaxRateModal(false)}
+        />
+      )}
+
+      {showPaymentModal && (
+        <PaymentPresetsModal
+          paymentMethods={paymentMethods}
+          onSave={(data) => {
             setPaymentMethods(data.paymentMethods)
             setShowPaymentModal(false)
           }}

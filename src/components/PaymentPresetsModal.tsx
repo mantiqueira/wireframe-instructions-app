@@ -2,10 +2,6 @@ import { useState, useEffect } from 'react'
 import styles from './PaymentPresetsModal.module.css'
 
 interface PaymentPresetsModalProps {
-  paymentTerms: string
-  requireDeposit: string
-  depositPercentage: string
-  taxRate: string
   paymentMethods: {
     debitCredit: boolean
     achTransfer: boolean
@@ -13,10 +9,6 @@ interface PaymentPresetsModalProps {
     other: boolean
   }
   onSave: (data: {
-    paymentTerms: string
-    requireDeposit: string
-    depositPercentage: string
-    taxRate: string
     paymentMethods: {
       debitCredit: boolean
       achTransfer: boolean
@@ -28,27 +20,15 @@ interface PaymentPresetsModalProps {
 }
 
 export default function PaymentPresetsModal({
-  paymentTerms: initialPaymentTerms,
-  requireDeposit: initialRequireDeposit,
-  depositPercentage: initialDepositPercentage,
-  taxRate: initialTaxRate,
   paymentMethods: initialPaymentMethods,
   onSave,
   onClose
 }: PaymentPresetsModalProps) {
-  const [paymentTerms, setPaymentTerms] = useState(initialPaymentTerms)
-  const [requireDeposit, setRequireDeposit] = useState(initialRequireDeposit)
-  const [depositPercentage, setDepositPercentage] = useState(initialDepositPercentage)
-  const [taxRate, setTaxRate] = useState(initialTaxRate)
   const [paymentMethods, setPaymentMethods] = useState(initialPaymentMethods)
 
   useEffect(() => {
-    setPaymentTerms(initialPaymentTerms)
-    setRequireDeposit(initialRequireDeposit)
-    setDepositPercentage(initialDepositPercentage)
-    setTaxRate(initialTaxRate)
     setPaymentMethods(initialPaymentMethods)
-  }, [initialPaymentTerms, initialRequireDeposit, initialDepositPercentage, initialTaxRate, initialPaymentMethods])
+  }, [initialPaymentMethods])
 
   const handlePaymentMethodChange = (method: keyof typeof paymentMethods) => {
     setPaymentMethods(prev => ({
@@ -59,10 +39,6 @@ export default function PaymentPresetsModal({
 
   const handleSave = () => {
     onSave({
-      paymentTerms,
-      requireDeposit,
-      depositPercentage,
-      taxRate,
       paymentMethods
     })
   }
