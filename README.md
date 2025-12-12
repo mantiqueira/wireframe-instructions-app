@@ -2,6 +2,12 @@
 
 A React + TypeScript single-page application with a wireframe-style UI for managing AI instructions and client message templates.
 
+## Recent Updates
+
+- Settings page with card-based layout and modal editing
+- Auto-resizing textareas throughout the application
+- Template editor with preview functionality
+
 ## Features
 
 - **Home Screen**: Four large cards, with "Settings / instructions" being the only interactive one
