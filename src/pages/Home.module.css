@@ -16,22 +16,18 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: default;
+  cursor: pointer;
   transition: all 0.2s ease;
 }
 
-.card.clickable {
-  cursor: pointer;
-}
-
-.card.clickable:hover {
+.card:hover {
   border-color: #999;
   background: #fafafa;
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.card.clickable:active {
+.card:active {
   transform: translateY(0);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }

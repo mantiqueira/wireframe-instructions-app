@@ -38,7 +38,10 @@ export default function Layout({ children }: LayoutProps) {
   return (
     <div className={styles.container}>
       <div className={styles.sidebar}>
-        <Link to="/" className={styles.sidebarLabel}>Navigation</Link>
+        <Link to="/" className={styles.sidebarLabel}>
+          <span className={styles.homeIcon}>🏠</span>
+          <span>Home</span>
+        </Link>
       </div>
       <div className={styles.main}>
         <div className={styles.breadcrumb}>{getBreadcrumb()}</div>
