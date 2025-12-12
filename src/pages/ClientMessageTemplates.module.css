@@ -1,153 +1,515 @@
 .container {
   width: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .header {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 40px;
-  gap: 20px;
+  align-items: center;
+  padding: 16px 24px;
+  border-bottom: 1px solid #ddd;
+  background: white;
 }
 
 .headerLeft {
-  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
-.title {
+.backArrow {
+  font-size: 18px;
+  color: #000;
+  cursor: pointer;
+}
+
+.projectTitle {
+  font-size: 16px;
+  font-weight: 500;
+  color: #000;
+}
+
+.headerRight {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.viewTabs {
+  display: flex;
+  gap: 4px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 2px;
+}
+
+.tab {
+  padding: 6px 12px;
+  border: none;
+  background: transparent;
+  font-size: 14px;
+  font-family: inherit;
+  cursor: pointer;
+  color: #666;
+  border-radius: 2px;
+}
+
+.tabActive {
+  background: white;
+  color: #000;
+  font-weight: 500;
+}
+
+.iconButton {
+  padding: 6px 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: white;
+  font-size: 16px;
+  cursor: pointer;
+  color: #000;
+}
+
+.iconButton:hover {
+  background: #fafafa;
+}
+
+.doneButton {
+  padding: 8px 16px;
+  border: 1px solid #4caf50;
+  border-radius: 4px;
+  background: #4caf50;
+  color: white;
+  font-size: 14px;
+  font-family: inherit;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.doneButton:hover {
+  background: #45a049;
+}
+
+.document {
+  flex: 1;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 40px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.companyInfo {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 0;
+  background: white;
+  margin-bottom: 0;
+}
+
+.companyHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.companyLogo {
   font-size: 32px;
   font-weight: bold;
-  margin-bottom: 8px;
-  text-align: left;
+  color: #d32f2f;
+  letter-spacing: 3px;
 }
 
-.subtitle {
+.companyRight {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.menuButton {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 4px 8px;
+  color: #000;
+  line-height: 1;
+}
+
+.menuButton:hover {
+  background: #f5f5f5;
+  border-radius: 4px;
+}
+
+.companyName {
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 6px;
+  color: #000;
+}
+
+.companyDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
   font-size: 14px;
   color: #666;
   text-align: left;
 }
 
-.headerRight {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-}
-
-.searchInput {
-  padding: 8px 12px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 14px;
-  font-family: inherit;
-  min-width: 200px;
-  background: #f5f5f5;
-  color: #000;
-}
-
-.searchInput:focus {
-  outline: none;
-  border-color: #999;
-}
-
-.addButton {
-  padding: 8px 16px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  background: white;
-  font-size: 14px;
-  font-family: inherit;
-  cursor: pointer;
-  color: #000;
-}
-
-.addButton:hover {
-  background: #fafafa;
-}
-
-.templatesList {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 20px;
-}
-
-.emptyState {
-  grid-column: 1 / -1;
-  text-align: center;
-  padding: 60px 20px;
-  color: #999;
-  font-size: 14px;
-}
-
-.card {
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  background: white;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.card:hover {
-  border-color: #999;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.cardContent {
+.changeOrderInfo {
   display: flex;
   flex-direction: column;
   gap: 8px;
+  padding: 20px 0;
 }
 
-.card .title {
-  font-size: 16px;
+.changeOrderRef {
+  font-size: 12px;
+  color: #666;
+}
+
+.changeOrderTitle {
+  font-size: 28px;
   font-weight: bold;
   margin: 0;
   color: #000;
 }
 
-.preview {
+.changeOrderSubtitle {
   font-size: 14px;
-  color: #333;
-  margin: 0;
-  line-height: 1.5;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+  color: #666;
+  text-decoration: underline;
+  cursor: pointer;
 }
 
-.cardFooter {
+.changeOrderDate {
+  font-size: 14px;
+  color: #666;
+}
+
+.preparedFor {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 20px;
+  background: white;
+}
+
+.sectionHeader {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-top: 12px;
-  border-top: 1px solid #eee;
+  margin-bottom: 16px;
 }
 
-.badge {
-  padding: 4px 12px;
+.sectionTitle {
+  font-size: 18px;
+  font-weight: 500;
+  margin: 0;
+  color: #000;
+}
+
+.clientInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 14px;
+  color: #000;
+}
+
+.clientName {
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.clientMessageSection {
+  background: white;
+}
+
+.clientMessageHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.messageContainer {
   border: 1px solid #ddd;
-  border-radius: 12px;
-  font-size: 12px;
+  border-radius: 4px;
+  background: white;
+  position: relative;
+}
+
+.messageHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+  background: #f5f5f5;
+  border-radius: 4px 4px 0 0;
+}
+
+.messageLabel {
+  font-size: 14px;
+  color: #666;
+}
+
+.templateDropdownWrapper {
+  position: relative;
+  z-index: 100;
+  display: inline-block;
+}
+
+.messageTextarea {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 0 0 4px 4px;
+  font-size: 14px;
+  font-family: inherit;
+  resize: vertical;
+  min-height: 150px;
   background: white;
   color: #000;
 }
 
-.deleteButton {
+.messageTextarea:focus {
+  outline: none;
+}
+
+.estimateSection {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 24px;
+  background: white;
+}
+
+.estimateHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.bulletedButton {
   padding: 6px 12px;
   border: 1px solid #ddd;
   border-radius: 4px;
   background: white;
-  font-size: 12px;
+  font-size: 14px;
   font-family: inherit;
   cursor: pointer;
   color: #000;
 }
 
-.deleteButton:hover {
+.bulletedButton:hover {
   background: #fafafa;
+}
+
+.phase {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.phase:last-child {
+  margin-bottom: 0;
+}
+
+.phaseHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #eee;
+}
+
+.phaseTitle {
+  font-size: 16px;
+  font-weight: 500;
+  color: #000;
+}
+
+.phaseTotal {
+  font-size: 16px;
+  font-weight: 500;
+  color: #000;
+}
+
+.phaseItem {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.itemHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.itemName {
+  font-size: 14px;
+  font-weight: 500;
+  color: #000;
+  flex: 1;
+}
+
+.itemSubtotal {
+  font-size: 14px;
+  color: #000;
+}
+
+.itemList {
+  margin: 0;
+  padding-left: 20px;
+  font-size: 14px;
+  color: #333;
+  line-height: 1.6;
+}
+
+.itemList li {
+  margin-bottom: 4px;
+}
+
+.summarySection {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 24px;
+  background: white;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.summaryRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  color: #000;
+}
+
+.summaryRowTotal {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 18px;
+  font-weight: bold;
+  color: #000;
+  padding-top: 8px;
+  border-top: 1px solid #eee;
+}
+
+.financingOption {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  padding-top: 12px;
+  border-top: 1px solid #eee;
+}
+
+.financingToggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  position: relative;
+}
+
+.toggleInput {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggleSlider {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 24px;
+  background: #4caf50;
+  border-radius: 24px;
+  transition: background 0.3s ease;
+  cursor: pointer;
+}
+
+.toggleSlider::before {
+  content: '';
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  left: 3px;
+  top: 3px;
+  background: white;
+  border-radius: 50%;
+  transition: transform 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transform: translateX(20px);
+}
+
+.financingInfo {
+  font-size: 14px;
+  color: #666;
+}
+
+.financingLink {
+  font-size: 14px;
+  color: #000;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.footerSection {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 24px;
+  background: white;
+}
+
+.footerLabel {
+  font-size: 12px;
+  color: #666;
+  margin-bottom: 16px;
+  text-transform: uppercase;
+}
+
+.footerButtons {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.footerButton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  border: 1px solid #4caf50;
+  border-radius: 4px;
+  background: rgba(76, 175, 80, 0.05);
+  font-size: 14px;
+  font-family: inherit;
+  cursor: pointer;
+  color: #000;
+  text-align: left;
+}
+
+.footerButton:hover {
+  background: rgba(76, 175, 80, 0.1);
+}
+
+.footerButton span:first-child {
+  font-size: 16px;
 }

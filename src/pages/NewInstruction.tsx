@@ -7,6 +7,7 @@ import InstructionToolbar from '../components/InstructionToolbar'
 import ExampleModal from '../components/ExampleModal'
 import Toast from '../components/Toast'
 import WarningBanner from '../components/WarningBanner'
+import { useAutoResizeTextarea } from '../hooks/useAutoResizeTextarea'
 import styles from './NewInstruction.module.css'
 
 export default function NewInstruction() {
@@ -34,6 +35,9 @@ export default function NewInstruction() {
 
   const bodyRef = useRef<HTMLTextAreaElement>(null)
 
+  // Auto-resize textarea based on content
+  useAutoResizeTextarea(bodyRef, body)
+
   // Load instruction data if ID is provided
   useEffect(() => {
     if (instructionId) {
@@ -51,12 +55,6 @@ export default function NewInstruction() {
       setCurrentInstructionStatus(null)
     }
   }, [instructionId, instructions])
-
-  useEffect(() => {
-    if (bodyRef.current) {
-      bodyRef.current.value = body
-    }
-  }, [body])
 
   const getInstructionLabel = () => {
     switch (where) {
@@ -228,7 +226,6 @@ export default function NewInstruction() {
                 value={body}
                 onChange={(e) => handleBodyChange(e.target.value)}
                 placeholder="Enter your instruction..."
-                rows={10}
               />
             </div>
           </div>

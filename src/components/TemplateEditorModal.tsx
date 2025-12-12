@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { useClientMessageTemplates } from '../context/ClientMessageTemplatesContext'
 import InstructionToolbar from './InstructionToolbar'
+import { useAutoResizeTextarea } from '../hooks/useAutoResizeTextarea'
 import styles from './TemplateEditorModal.module.css'
 
 interface TemplateEditorModalProps {
@@ -24,6 +25,10 @@ export default function TemplateEditorModal({ templateId, onClose }: TemplateEdi
 
   const instructionsRef = useRef<HTMLTextAreaElement>(null)
   const bodyRef = useRef<HTMLTextAreaElement>(null)
+
+  // Auto-resize textareas based on content
+  useAutoResizeTextarea(instructionsRef, instructions)
+  useAutoResizeTextarea(bodyRef, body)
 
   useEffect(() => {
     if (existingTemplate) {
@@ -185,7 +190,6 @@ export default function TemplateEditorModal({ templateId, onClose }: TemplateEdi
                   value={instructions}
                   onChange={(e) => handleInstructionsChange(e.target.value)}
                   placeholder="Enter instructions for AI to follow when rewriting this template..."
-                  rows={8}
                 />
               </div>
             </div>
@@ -207,7 +211,6 @@ export default function TemplateEditorModal({ templateId, onClose }: TemplateEdi
                   value={body}
                   onChange={(e) => handleBodyChange(e.target.value)}
                   placeholder="Enter the message template content..."
-                  rows={10}
                 />
               </div>
             </div>

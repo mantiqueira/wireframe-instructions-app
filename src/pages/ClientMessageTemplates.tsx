@@ -1,36 +1,41 @@
-import { useState, useMemo } from 'react'
+import { useState, useRef } from 'react'
 import { useClientMessageTemplates } from '../context/ClientMessageTemplatesContext'
+import TemplateDropdown from '../components/TemplateDropdown'
+import MessageLoadingState from '../components/MessageLoadingState'
 import TemplateEditorModal from '../components/TemplateEditorModal'
+import { useAutoResizeTextarea } from '../hooks/useAutoResizeTextarea'
 import styles from './ClientMessageTemplates.module.css'
 
 export default function ClientMessageTemplates() {
-  const { templates, deleteTemplate } = useClientMessageTemplates()
-  const [searchQuery, setSearchQuery] = useState('')
+  const { templates, duplicateTemplate, deleteTemplate } = useClientMessageTemplates()
+  const [selectedTemplateId, setSelectedTemplateId] = useState<string | null>(null)
+  const [message, setMessage] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
   const [editingTemplateId, setEditingTemplateId] = useState<string | null>(null)
+  const messageTextareaRef = useRef<HTMLTextAreaElement>(null)
 
-  const filteredTemplates = useMemo(() => {
-    if (!searchQuery.trim()) {
-      return templates
-    }
-    const query = searchQuery.toLowerCase()
-    return templates.filter(
-      (template) =>
-        template.title.toLowerCase().includes(query) ||
-        template.body.toLowerCase().includes(query)
-    )
-  }, [templates, searchQuery])
+  // Auto-resize textarea based on content
+  useAutoResizeTextarea(messageTextareaRef, message)
 
-  const handleDelete = (id: string) => {
-    if (window.confirm('Are you sure you want to delete this template?')) {
-      deleteTemplate(id)
-    }
+  const handleSelectTemplate = (template: any) => {
+    setSelectedTemplateId(template.id)
+    setIsLoading(true)
+    // Simulate AI rewriting with placeholder replacement
+    setTimeout(() => {
+      let processedMessage = template.body
+      
+      // Replace placeholders with actual values
+      processedMessage = processedMessage.replace(/\[client name\]/g, 'Adam Appleseed')
+      processedMessage = processedMessage.replace(/\[brief description of the project\]/g, 'the bathroom remodel at 452 Maple St')
+      
+      // Simulate AI enhancement based on instructions
+      // In a real app, this would call an AI service
+      setMessage(processedMessage)
+      setIsLoading(false)
+    }, 2500)
   }
 
-  const handleEdit = (id: string) => {
-    setEditingTemplateId(id)
-  }
-
-  const handleAddTemplate = () => {
+  const handleNewTemplate = () => {
     setEditingTemplateId('new')
   }
 
@@ -38,82 +43,225 @@ export default function ClientMessageTemplates() {
     setEditingTemplateId(null)
   }
 
+  const handleEditTemplate = (id: string) => {
+    setEditingTemplateId(id)
+  }
+
   return (
     <div className={styles.container}>
       <div className={styles.header}>
         <div className={styles.headerLeft}>
-          <h1 className={styles.title}>Client message templates</h1>
-          <p className={styles.subtitle}>Manage templates for AI-generated client messages</p>
+          <span className={styles.backArrow}>←</span>
+          <span className={styles.projectTitle}>EST-10200 Bathroom Remodel - Smith's House</span>
         </div>
         <div className={styles.headerRight}>
-          <input
-            type="text"
-            placeholder="Search…"
-            className={styles.searchInput}
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-          <button className={styles.addButton} onClick={handleAddTemplate}>
-            + Add template
-          </button>
+          <div className={styles.viewTabs}>
+            <button className={styles.tab}>Estimate</button>
+            <button className={`${styles.tab} ${styles.tabActive}`}>Client view</button>
+          </div>
+          <button className={styles.iconButton}>↻</button>
+          <button className={styles.iconButton}>⋯</button>
+          <button className={styles.iconButton}>🖨</button>
+          <button className={styles.doneButton}>✓ Done</button>
         </div>
       </div>
 
-      <div className={styles.templatesList}>
-        {filteredTemplates.length === 0 ? (
-          <div className={styles.emptyState}>
-            {searchQuery ? 'No templates found.' : 'No templates yet. Create your first template!'}
+      <div className={styles.document}>
+        <div className={styles.companyInfo}>
+          <div className={styles.companyHeader}>
+            <div className={styles.companyLogo}>ACME</div>
           </div>
-        ) : (
-          filteredTemplates.map((template) => (
-            <TemplateCard
-              key={template.id}
-              template={template}
-              onEdit={() => handleEdit(template.id)}
-              onDelete={() => handleDelete(template.id)}
-            />
-          ))
-        )}
+          <div className={styles.companyRight}>
+            <div>
+              <div className={styles.companyName}>Acme Construction</div>
+              <div className={styles.companyDetails}>
+                <div>hello@acmeconstruction.com</div>
+                <div>(748) 490-9922</div>
+                <div>Licence #438F829</div>
+              </div>
+            </div>
+            <button className={styles.menuButton}>⋯</button>
+          </div>
+        </div>
+
+        <div className={styles.changeOrderInfo}>
+          <div className={styles.changeOrderRef}>CO-10034-1</div>
+          <h1 className={styles.changeOrderTitle}>Change order: Upgrade to Hardwood Flooring</h1>
+          <div className={styles.changeOrderSubtitle}>From 452 Maple St Bathroom remodel</div>
+          <div className={styles.changeOrderDate}>May 4, 2025</div>
+        </div>
+
+        <div className={styles.preparedFor}>
+          <div className={styles.sectionHeader}>
+            <h2 className={styles.sectionTitle}>Prepared for</h2>
+            <button className={styles.menuButton}>⋯</button>
+          </div>
+          <div className={styles.clientInfo}>
+            <div className={styles.clientName}>Adam Appleseed</div>
+            <div>aappleseed@email.com</div>
+            <div>(748) 710-0964</div>
+            <div>136 Main Street, San Francisco, CA</div>
+          </div>
+        </div>
+
+        <div className={styles.clientMessageSection}>
+          <div className={styles.clientMessageHeader}>
+            <h2 className={styles.sectionTitle}>Client message</h2>
+            <button className={styles.menuButton}>⋯</button>
+          </div>
+          <div className={styles.messageContainer}>
+            <div className={styles.messageHeader}>
+              <span className={styles.messageLabel}>Client message (AI gen)</span>
+              <div className={styles.templateDropdownWrapper}>
+                <TemplateDropdown
+                  templates={templates}
+                  selectedTemplateId={selectedTemplateId}
+                  onSelectTemplate={handleSelectTemplate}
+                  onNewTemplate={handleNewTemplate}
+                  onEdit={handleEditTemplate}
+                  onDuplicate={duplicateTemplate}
+                  onDelete={deleteTemplate}
+                />
+              </div>
+            </div>
+            {isLoading ? (
+              <MessageLoadingState />
+            ) : (
+              <textarea
+                ref={messageTextareaRef}
+                className={styles.messageTextarea}
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                placeholder=""
+              />
+            )}
+          </div>
+        </div>
+
+        <div className={styles.estimateSection}>
+          <div className={styles.estimateHeader}>
+            <h2 className={styles.sectionTitle}>ESTIMATE</h2>
+            <button className={styles.bulletedButton}>Bulleted</button>
+          </div>
+          <div className={styles.phase}>
+            <div className={styles.phaseHeader}>
+              <span className={styles.phaseTitle}>Phase 1</span>
+              <span className={styles.phaseTotal}>$2,480.00</span>
+            </div>
+            <div className={styles.phaseItem}>
+              <div className={styles.itemHeader}>
+                <span className={styles.itemName}>Demolition</span>
+                <span className={styles.itemSubtotal}>$2,165.48</span>
+                <button className={styles.menuButton}>⋯</button>
+              </div>
+              <ul className={styles.itemList}>
+                <li>Remove existing vanity, sink, and plumbing fixtures</li>
+                <li>Demo and remove all floor and wall tile including shower surround and pan</li>
+                <li>Remove electrical components including outlets, switches, and light fixtures</li>
+              </ul>
+            </div>
+            <div className={styles.phaseItem}>
+              <div className={styles.itemHeader}>
+                <span className={styles.itemName}>Tile</span>
+                <span className={styles.itemSubtotal}>$5,521.25</span>
+                <button className={styles.menuButton}>⋯</button>
+              </div>
+              <ul className={styles.itemList}>
+                <li>Install ceramic wall tile and porcelain floor tile throughout the space</li>
+                <li>Create custom shower with large format wall tile, mosaic floor tile, marble threshold, and foam core curb</li>
+                <li>Install cement backer board as substrate for all tile work</li>
+              </ul>
+            </div>
+          </div>
+          <div className={styles.phase}>
+            <div className={styles.phaseHeader}>
+              <span className={styles.phaseTitle}>Phase 2</span>
+              <span className={styles.phaseTotal}>$4,480.00</span>
+            </div>
+            <div className={styles.phaseItem}>
+              <div className={styles.itemHeader}>
+                <span className={styles.itemName}>Plumbing</span>
+                <span className={styles.itemSubtotal}>$480.00</span>
+                <button className={styles.menuButton}>⋯</button>
+              </div>
+              <ul className={styles.itemList}>
+                <li>Remove existing bathroom fixtures and finishes</li>
+                <li>Demolish shower, vanity, lighting, and flooring</li>
+                <li>Protect work area and dispose of debris</li>
+              </ul>
+            </div>
+            <div className={styles.phaseItem}>
+              <div className={styles.itemHeader}>
+                <span className={styles.itemName}>Demolition</span>
+                <span className={styles.itemSubtotal}>$480.00</span>
+                <button className={styles.menuButton}>⋯</button>
+              </div>
+              <ul className={styles.itemList}>
+                <li>Remove existing bathroom fixtures and finishes</li>
+                <li>Demolish shower, vanity, lighting, and flooring</li>
+                <li>Protect work area and dispose of debris</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div className={styles.summarySection}>
+          <div className={styles.summaryRow}>
+            <span>Subtotal:</span>
+            <span>$ 55,662.14</span>
+          </div>
+          <div className={styles.summaryRow}>
+            <span>Discount 5.5%:</span>
+            <span>- $ 5,240.00</span>
+          </div>
+          <div className={styles.summaryRow}>
+            <span>Tax 4.2%:</span>
+            <span>$ 1,047.37</span>
+          </div>
+          <div className={styles.summaryRowTotal}>
+            <span>Total:</span>
+            <span>$50,662.14</span>
+          </div>
+          <div className={styles.financingOption}>
+            <label className={styles.financingToggle}>
+              <input type="checkbox" defaultChecked className={styles.toggleInput} />
+              <span className={styles.toggleSlider}></span>
+              <span>Offer financing</span>
+            </label>
+            <span className={styles.financingInfo}>ℹ️</span>
+            <span className={styles.financingLink}>from $377/month Learn more</span>
+          </div>
+        </div>
+
+        <div className={styles.footerSection}>
+          <div className={styles.footerLabel}>FOOTER</div>
+          <div className={styles.footerButtons}>
+            <button className={styles.footerButton}>
+              <span>💰</span>
+              <span>Payment schedule</span>
+            </button>
+            <button className={styles.footerButton}>
+              <span>✍️</span>
+              <span>Request signature</span>
+            </button>
+            <button className={styles.footerButton}>
+              <span>📄</span>
+              <span>Add terms & conditions</span>
+            </button>
+            <button className={styles.footerButton}>
+              <span>📎</span>
+              <span>Attach files</span>
+            </button>
+          </div>
+        </div>
       </div>
+
       {editingTemplateId && (
         <TemplateEditorModal
           templateId={editingTemplateId}
           onClose={handleCloseModal}
         />
       )}
-    </div>
-  )
-}
-
-interface TemplateCardProps {
-  template: any
-  onEdit: () => void
-  onDelete: () => void
-}
-
-function TemplateCard({ template, onEdit, onDelete }: TemplateCardProps) {
-  const preview = template.body.split('\n')[0].substring(0, 120) + '...'
-
-  return (
-    <div className={styles.card} onClick={onEdit}>
-      <div className={styles.cardContent}>
-        <h3 className={styles.title}>{template.title}</h3>
-        <p className={styles.preview}>{preview}</p>
-      </div>
-      <div className={styles.cardFooter}>
-        <div className={styles.badge}>
-          {template.enabled ? 'Enabled' : 'Disabled'}
-        </div>
-        <button
-          className={styles.deleteButton}
-          onClick={(e) => {
-            e.stopPropagation()
-            onDelete()
-          }}
-        >
-          Delete
-        </button>
-      </div>
     </div>
   )
 }

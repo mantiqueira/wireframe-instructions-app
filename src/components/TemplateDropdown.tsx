@@ -7,6 +7,7 @@ interface TemplateDropdownProps {
   selectedTemplateId: string | null
   onSelectTemplate: (template: ClientMessageTemplate) => void
   onNewTemplate: () => void
+  onEdit: (id: string) => void
   onDuplicate: (id: string) => void
   onDelete: (id: string) => void
 }
@@ -16,6 +17,7 @@ export default function TemplateDropdown({
   selectedTemplateId,
   onSelectTemplate,
   onNewTemplate,
+  onEdit,
   onDuplicate,
   onDelete
 }: TemplateDropdownProps) {
@@ -56,11 +58,10 @@ export default function TemplateDropdown({
       {isOpen && (
         <div className={styles.dropdown}>
           <div className={styles.searchContainer}>
-            <span className={styles.searchIcon}>🔍</span>
             <input
               type="text"
               className={styles.searchInput}
-              placeholder="Search..."
+              placeholder="Q Search..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               autoFocus
@@ -73,6 +74,7 @@ export default function TemplateDropdown({
                 template={template}
                 isSelected={template.id === selectedTemplateId}
                 onSelect={() => handleSelect(template)}
+                onEdit={() => onEdit(template.id)}
                 onDuplicate={() => onDuplicate(template.id)}
                 onDelete={() => onDelete(template.id)}
               />
@@ -91,11 +93,12 @@ interface TemplateItemProps {
   template: ClientMessageTemplate
   isSelected: boolean
   onSelect: () => void
+  onEdit: () => void
   onDuplicate: () => void
   onDelete: () => void
 }
 
-function TemplateItem({ template, isSelected, onSelect, onDuplicate, onDelete }: TemplateItemProps) {
+function TemplateItem({ template, isSelected, onSelect, onEdit, onDuplicate, onDelete }: TemplateItemProps) {
   const [menuOpen, setMenuOpen] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
 
@@ -109,12 +112,14 @@ function TemplateItem({ template, isSelected, onSelect, onDuplicate, onDelete }:
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
 
-  const preview = template.body.split('\n')[0].substring(0, 80) + '...'
+  const preview = template.body.split('\n')[0].substring(0, 120)
 
   return (
     <div className={styles.templateItem}>
       <div className={styles.templateContent} onClick={onSelect}>
-        {isSelected && <span className={styles.checkmark}>✓</span>}
+        <div className={styles.checkbox}>
+          {isSelected && <span className={styles.checkmark}>✓</span>}
+        </div>
         <div className={styles.templateInfo}>
           <div className={styles.templateTitle}>{template.title}</div>
           <div className={styles.templatePreview}>{preview}</div>
@@ -132,6 +137,16 @@ function TemplateItem({ template, isSelected, onSelect, onDuplicate, onDelete }:
         </button>
         {menuOpen && (
           <div className={styles.menu}>
+            <button
+              className={styles.menuItem}
+              onClick={(e) => {
+                e.stopPropagation()
+                onEdit()
+                setMenuOpen(false)
+              }}
+            >
+              Edit
+            </button>
             <button
               className={styles.menuItem}
               onClick={(e) => {
