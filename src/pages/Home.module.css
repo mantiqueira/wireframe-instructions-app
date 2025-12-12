@@ -1,0 +1,36 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  align-items: center;
+  padding: 60px 20px;
+}
+
+.card {
+  width: 100%;
+  max-width: 600px;
+  height: 120px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: default;
+}
+
+.card:first-child {
+  cursor: pointer;
+}
+
+.card:first-child:hover {
+  border-color: #999;
+  background: #fafafa;
+}
+
+.cardText {
+  font-size: 18px;
+  text-align: center;
+  color: #000;
+}
+

@@ -1,0 +1,291 @@
+.container {
+  width: 100%;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 40px;
+  gap: 20px;
+}
+
+.headerLeft {
+  flex: 1;
+}
+
+.title {
+  font-size: 32px;
+  font-weight: bold;
+  margin-bottom: 8px;
+  text-align: left;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: #666;
+  text-align: left;
+}
+
+.headerRight {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.searchInput {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  font-family: inherit;
+  min-width: 200px;
+  background: #f5f5f5;
+}
+
+.searchInput:focus {
+  outline: none;
+  border-color: #999;
+}
+
+.learnMenuContainer {
+  position: relative;
+}
+
+.learnButton {
+  padding: 8px 16px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: white;
+  font-size: 14px;
+  font-family: inherit;
+  cursor: pointer;
+  color: #000;
+}
+
+.learnButton:hover {
+  background: #fafafa;
+}
+
+.learnMenu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 4px;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  min-width: 180px;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.learnMenuItem {
+  padding: 12px 16px;
+  border: none;
+  background: white;
+  color: #000;
+  text-decoration: none;
+  font-size: 14px;
+  font-family: inherit;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background 0.2s ease;
+}
+
+.learnMenuItem:hover {
+  background: #f5f5f5;
+}
+
+.learnMenuItem:not(:last-child) {
+  border-bottom: 1px solid #eee;
+}
+
+.learnMenuIcon {
+  font-size: 14px;
+}
+
+.groups {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.banner {
+  position: relative;
+  background: #fff9e6;
+  border-radius: 8px;
+  padding: 32px;
+  margin-bottom: 40px;
+  display: flex;
+  gap: 32px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.bannerDismiss {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #000;
+  color: white;
+  border: none;
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  z-index: 10;
+  transition: background 0.2s ease;
+}
+
+.bannerDismiss:hover {
+  background: #333;
+}
+
+.bannerContent {
+  display: flex;
+  gap: 32px;
+  width: 100%;
+}
+
+.bannerLeft {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.bannerTitle {
+  font-size: 20px;
+  font-weight: bold;
+  margin: 0;
+  color: #000;
+}
+
+.bannerDescription {
+  font-size: 14px;
+  color: #000;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.bannerLinks {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+
+.bannerLink {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #000;
+  text-decoration: none;
+  font-size: 14px;
+  transition: opacity 0.2s ease;
+}
+
+.bannerLink:hover {
+  opacity: 0.7;
+}
+
+.bannerLinkIcon {
+  font-size: 14px;
+}
+
+.bannerRight {
+  flex: 1;
+  position: relative;
+  min-height: 200px;
+  background: #2d5016;
+  border-radius: 8px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow: hidden;
+}
+
+.bannerPreview {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  height: 100%;
+}
+
+.bannerPreviewCard {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 6px;
+  padding: 12px 16px;
+  font-size: 12px;
+  color: #000;
+  line-height: 1.4;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.groupHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.groupTitle {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+.groupHelper {
+  font-size: 14px;
+  color: #666;
+}
+
+.addButton {
+  padding: 8px 16px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: white;
+  font-size: 14px;
+  font-family: inherit;
+  cursor: pointer;
+  white-space: nowrap;
+  color: #000;
+}
+
+.addButton:hover {
+  background: #fafafa;
+}
+
+.cardsList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.emptyState {
+  padding: 40px;
+  background: #f5f5f5;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  text-align: center;
+  color: #666;
+}
+

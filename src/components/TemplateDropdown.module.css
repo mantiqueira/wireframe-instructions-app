@@ -1,0 +1,202 @@
+.container {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdownButton {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: white;
+  font-size: 14px;
+  font-family: inherit;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #000;
+}
+
+.dropdownButton:hover {
+  border-color: #999;
+}
+
+.arrow {
+  font-size: 10px;
+  color: #666;
+}
+
+.dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 4px;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  min-width: 300px;
+  max-width: 400px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+}
+
+.searchContainer {
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.searchIcon {
+  font-size: 14px;
+  color: #666;
+}
+
+.searchInput {
+  flex: 1;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 6px 8px;
+  font-size: 14px;
+  font-family: inherit;
+  background: #f5f5f5;
+  color: #000;
+}
+
+.searchInput:focus {
+  outline: none;
+  border-color: #999;
+}
+
+.templateList {
+  max-height: 300px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.templateItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+}
+
+.templateItem:hover {
+  background: #fafafa;
+}
+
+.templateItem:last-child {
+  border-bottom: none;
+}
+
+.templateContent {
+  flex: 1;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.checkmark {
+  color: #4caf50;
+  font-weight: bold;
+  font-size: 16px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.templateInfo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.templateTitle {
+  font-weight: 500;
+  font-size: 14px;
+  color: #000;
+}
+
+.templatePreview {
+  font-size: 12px;
+  color: #666;
+  line-height: 1.4;
+}
+
+.menuContainer {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.menuButton {
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  padding: 4px 8px;
+  color: #000;
+  line-height: 1;
+}
+
+.menuButton:hover {
+  background: #f5f5f5;
+  border-radius: 4px;
+}
+
+.menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 4px;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  min-width: 120px;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+}
+
+.menuItem {
+  padding: 10px 16px;
+  border: none;
+  background: white;
+  text-align: left;
+  font-size: 14px;
+  font-family: inherit;
+  cursor: pointer;
+  border-bottom: 1px solid #eee;
+  color: #000;
+}
+
+.menuItem:last-child {
+  border-bottom: none;
+}
+
+.menuItem:hover {
+  background: #fafafa;
+}
+
+.newTemplateButton {
+  padding: 12px;
+  border: none;
+  border-top: 1px solid #eee;
+  background: white;
+  font-size: 14px;
+  font-family: inherit;
+  cursor: pointer;
+  color: #000;
+  text-align: left;
+  border-radius: 0 0 4px 4px;
+}
+
+.newTemplateButton:hover {
+  background: #fafafa;
+}

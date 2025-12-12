@@ -1,0 +1,355 @@
+.container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 24px;
+  border-bottom: 1px solid #ddd;
+  background: white;
+}
+
+.headerLeft {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.backArrow {
+  font-size: 18px;
+  color: #000;
+  cursor: pointer;
+}
+
+.projectTitle {
+  font-size: 16px;
+  font-weight: 500;
+  color: #000;
+}
+
+.headerRight {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.viewTabs {
+  display: flex;
+  gap: 4px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 2px;
+}
+
+.tab {
+  padding: 6px 12px;
+  border: none;
+  background: transparent;
+  font-size: 14px;
+  font-family: inherit;
+  cursor: pointer;
+  color: #666;
+  border-radius: 2px;
+}
+
+.tabActive {
+  background: white;
+  color: #000;
+  font-weight: 500;
+}
+
+.iconButton {
+  padding: 6px 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: white;
+  font-size: 16px;
+  cursor: pointer;
+  color: #000;
+}
+
+.iconButton:hover {
+  background: #fafafa;
+}
+
+.doneButton {
+  padding: 8px 16px;
+  border: 1px solid #4caf50;
+  border-radius: 4px;
+  background: #4caf50;
+  color: white;
+  font-size: 14px;
+  font-family: inherit;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.doneButton:hover {
+  background: #45a049;
+}
+
+.document {
+  flex: 1;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 40px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.companyInfo {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 24px;
+  background: white;
+}
+
+.companyHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.companyLogo {
+  font-size: 24px;
+  font-weight: bold;
+  color: #d32f2f;
+  letter-spacing: 2px;
+}
+
+.menuButton {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 4px 8px;
+  color: #000;
+  line-height: 1;
+}
+
+.menuButton:hover {
+  background: #f5f5f5;
+  border-radius: 4px;
+}
+
+.companyName {
+  font-size: 18px;
+  font-weight: 500;
+  margin-bottom: 12px;
+  color: #000;
+}
+
+.companyDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 14px;
+  color: #666;
+}
+
+.changeOrderInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.changeOrderRef {
+  font-size: 12px;
+  color: #666;
+}
+
+.changeOrderTitle {
+  font-size: 28px;
+  font-weight: bold;
+  margin: 0;
+  color: #000;
+}
+
+.changeOrderSubtitle {
+  font-size: 14px;
+  color: #666;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.changeOrderDate {
+  font-size: 14px;
+  color: #666;
+}
+
+.preparedFor {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 24px;
+  background: white;
+}
+
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.sectionTitle {
+  font-size: 18px;
+  font-weight: 500;
+  margin: 0;
+  color: #000;
+}
+
+.clientInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 14px;
+  color: #000;
+}
+
+.clientName {
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.clientMessageSection {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 24px;
+  background: white;
+}
+
+.clientMessageHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.templateDropdownContainer {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 16px;
+}
+
+.messageContainer {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: #f5f5f5;
+  min-height: 150px;
+}
+
+.messageTextarea {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  font-family: inherit;
+  resize: vertical;
+  min-height: 150px;
+  background: #f5f5f5;
+  color: #000;
+}
+
+.messageTextarea:focus {
+  outline: none;
+}
+
+.estimateSection {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 24px;
+  background: white;
+}
+
+.estimateHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.bulletedButton {
+  padding: 6px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: white;
+  font-size: 14px;
+  font-family: inherit;
+  cursor: pointer;
+  color: #000;
+}
+
+.bulletedButton:hover {
+  background: #fafafa;
+}
+
+.phase {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.phaseHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #eee;
+}
+
+.phaseTitle {
+  font-size: 16px;
+  font-weight: 500;
+  color: #000;
+}
+
+.phaseTotal {
+  font-size: 16px;
+  font-weight: 500;
+  color: #000;
+}
+
+.phaseItem {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.itemHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.itemName {
+  font-size: 14px;
+  font-weight: 500;
+  color: #000;
+  flex: 1;
+}
+
+.itemSubtotal {
+  font-size: 14px;
+  color: #000;
+}
+
+.itemList {
+  margin: 0;
+  padding-left: 20px;
+  font-size: 14px;
+  color: #333;
+  line-height: 1.6;
+}
+
+.itemList li {
+  margin-bottom: 4px;
+}

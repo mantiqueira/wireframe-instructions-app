@@ -1,0 +1,26 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Courier New', monospace, sans-serif;
+  background: white;
+  color: #000;
+  line-height: 1.5;
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+}
+
+button {
+  color: #000;
+}
+
+label {
+  color: #000;
+}
+
