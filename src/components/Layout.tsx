@@ -27,6 +27,8 @@ export default function Layout({ children }: LayoutProps) {
       return 'Proposal / Client Message'
     } else if (location.pathname === '/settings/client-message-templates') {
       return 'Settings / Client Message Templates'
+    } else if (location.pathname === '/settings/defaults') {
+      return 'Settings / Default values'
     }
     return 'Home'
   }

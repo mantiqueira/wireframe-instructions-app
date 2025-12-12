@@ -7,6 +7,7 @@ import InstructionsList from './pages/InstructionsList'
 import NewInstruction from './pages/NewInstruction'
 import Proposal from './pages/Proposal'
 import ClientMessageTemplates from './pages/ClientMessageTemplates'
+import Settings from './pages/Settings'
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
             <Route path="/settings/instructions/new" element={<NewInstruction />} />
             <Route path="/proposal" element={<Proposal />} />
             <Route path="/settings/client-message-templates" element={<ClientMessageTemplates />} />
+            <Route path="/settings/defaults" element={<Settings />} />
           </Routes>
         </Layout>
       </ClientMessageTemplatesProvider>

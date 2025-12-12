@@ -9,127 +9,100 @@ interface TemplateEditorModalProps {
   onClose: () => void
 }
 
+const DEFAULT_PROMPT = `Write a friendly and excited message to the client using this structure:
+
+Hi [client name]! 🎉
+
+I'm excited to share the [document type] for the [project type] at [project location].
+
+[One short sentence about why this update is exciting, using: [extra context]].
+
+Take a look at the details below. Let me know if you want to chat or have any questions.`
+
 export default function TemplateEditorModal({ templateId, onClose }: TemplateEditorModalProps) {
   const { templates, addTemplate, updateTemplate } = useClientMessageTemplates()
   const isEditing = templateId && templateId !== 'new'
   const existingTemplate = isEditing ? templates.find((t) => t.id === templateId) : null
 
   const [title, setTitle] = useState('')
-  const [enabled, setEnabled] = useState(true)
-  const [instructions, setInstructions] = useState('')
-  const [body, setBody] = useState('')
-  const [instructionsHistory, setInstructionsHistory] = useState<string[]>([''])
-  const [instructionsHistoryIndex, setInstructionsHistoryIndex] = useState(0)
-  const [bodyHistory, setBodyHistory] = useState<string[]>([''])
-  const [bodyHistoryIndex, setBodyHistoryIndex] = useState(0)
+  const [prompt, setPrompt] = useState('')
+  const [history, setHistory] = useState<string[]>([''])
+  const [historyIndex, setHistoryIndex] = useState(0)
 
-  const instructionsRef = useRef<HTMLTextAreaElement>(null)
-  const bodyRef = useRef<HTMLTextAreaElement>(null)
+  const promptRef = useRef<HTMLTextAreaElement>(null)
 
-  // Auto-resize textareas based on content
-  useAutoResizeTextarea(instructionsRef, instructions)
-  useAutoResizeTextarea(bodyRef, body)
+  // Auto-resize textarea based on content
+  useAutoResizeTextarea(promptRef, prompt)
 
   useEffect(() => {
     if (existingTemplate) {
       setTitle(existingTemplate.title)
-      setEnabled(existingTemplate.enabled)
-      setInstructions(existingTemplate.instructions)
-      setBody(existingTemplate.body)
-      setInstructionsHistory([existingTemplate.instructions])
-      setBodyHistory([existingTemplate.body])
+      // Use instructions as the prompt, or combine with body if needed
+      setPrompt(existingTemplate.instructions || existingTemplate.body)
+      setHistory([existingTemplate.instructions || existingTemplate.body])
+      setHistoryIndex(0)
+    } else if (templateId === 'new') {
+      // Set default prompt for new templates
+      setPrompt(DEFAULT_PROMPT)
+      setHistory([DEFAULT_PROMPT])
+      setHistoryIndex(0)
     }
-  }, [existingTemplate])
+  }, [existingTemplate, templateId])
 
-  const addToHistory = (text: string, isBody: boolean) => {
-    if (isBody) {
-      const newHistory = bodyHistory.slice(0, bodyHistoryIndex + 1)
-      newHistory.push(text)
-      setBodyHistory(newHistory)
-      setBodyHistoryIndex(newHistory.length - 1)
-    } else {
-      const newHistory = instructionsHistory.slice(0, instructionsHistoryIndex + 1)
-      newHistory.push(text)
-      setInstructionsHistory(newHistory)
-      setInstructionsHistoryIndex(newHistory.length - 1)
-    }
+  const addToHistory = (text: string) => {
+    const newHistory = history.slice(0, historyIndex + 1)
+    newHistory.push(text)
+    setHistory(newHistory)
+    setHistoryIndex(newHistory.length - 1)
   }
 
-  const handleInstructionsChange = (value: string) => {
-    setInstructions(value)
-    if (instructionsHistoryIndex === instructionsHistory.length - 1) {
-      addToHistory(value, false)
+  const handlePromptChange = (value: string) => {
+    setPrompt(value)
+    if (historyIndex === history.length - 1) {
+      addToHistory(value)
     } else {
-      const newHistory = instructionsHistory.slice(0, instructionsHistoryIndex + 1)
+      const newHistory = history.slice(0, historyIndex + 1)
       newHistory.push(value)
-      setInstructionsHistory(newHistory)
-      setInstructionsHistoryIndex(newHistory.length - 1)
+      setHistory(newHistory)
+      setHistoryIndex(newHistory.length - 1)
     }
   }
 
-  const handleBodyChange = (value: string) => {
-    setBody(value)
-    if (bodyHistoryIndex === bodyHistory.length - 1) {
-      addToHistory(value, true)
-    } else {
-      const newHistory = bodyHistory.slice(0, bodyHistoryIndex + 1)
-      newHistory.push(value)
-      setBodyHistory(newHistory)
-      setBodyHistoryIndex(newHistory.length - 1)
+  const handleUndo = () => {
+    if (historyIndex > 0) {
+      const newIndex = historyIndex - 1
+      setHistoryIndex(newIndex)
+      setPrompt(history[newIndex])
     }
   }
 
-  const handleUndo = (isBody: boolean) => {
-    if (isBody) {
-      if (bodyHistoryIndex > 0) {
-        const newIndex = bodyHistoryIndex - 1
-        setBodyHistoryIndex(newIndex)
-        setBody(bodyHistory[newIndex])
-      }
-    } else {
-      if (instructionsHistoryIndex > 0) {
-        const newIndex = instructionsHistoryIndex - 1
-        setInstructionsHistoryIndex(newIndex)
-        setInstructions(instructionsHistory[newIndex])
-      }
-    }
-  }
-
-  const handleRedo = (isBody: boolean) => {
-    if (isBody) {
-      if (bodyHistoryIndex < bodyHistory.length - 1) {
-        const newIndex = bodyHistoryIndex + 1
-        setBodyHistoryIndex(newIndex)
-        setBody(bodyHistory[newIndex])
-      }
-    } else {
-      if (instructionsHistoryIndex < instructionsHistory.length - 1) {
-        const newIndex = instructionsHistoryIndex + 1
-        setInstructionsHistoryIndex(newIndex)
-        setInstructions(instructionsHistory[newIndex])
-      }
+  const handleRedo = () => {
+    if (historyIndex < history.length - 1) {
+      const newIndex = historyIndex + 1
+      setHistoryIndex(newIndex)
+      setPrompt(history[newIndex])
     }
   }
 
   const handleSave = () => {
-    if (!title.trim() || !body.trim()) {
-      alert('Please fill in both title and message body')
+    if (!title.trim() || !prompt.trim()) {
+      alert('Please fill in both title and prompt')
       return
     }
 
     if (isEditing && templateId) {
       updateTemplate(templateId, {
         title: title.trim(),
-        body: body.trim(),
-        instructions: instructions.trim(),
-        enabled
+        body: '', // Keep body empty or use prompt as body
+        instructions: prompt.trim(),
+        enabled: true // Always enabled
       })
     } else {
       addTemplate({
         title: title.trim(),
-        body: body.trim(),
-        instructions: instructions.trim(),
-        enabled
+        body: '', // Keep body empty or use prompt as body
+        instructions: prompt.trim(),
+        enabled: true // Always enabled
       })
     }
     onClose()
@@ -148,80 +121,59 @@ export default function TemplateEditorModal({ templateId, onClose }: TemplateEdi
         </div>
 
         <div className={styles.content}>
-          <div className={styles.form}>
-            <div className={styles.formField}>
-              <label className={styles.label}>Template title</label>
-              <input
-                type="text"
-                className={styles.input}
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                placeholder="Enter template title"
-              />
-            </div>
+          <div className={styles.container}>
+            <div className={styles.leftPanel}>
+              <div className={styles.form}>
+                <div className={styles.formField}>
+                  <label className={styles.label}>Template title</label>
+                  <input
+                    type="text"
+                    className={styles.input}
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                    placeholder="Enter template title"
+                  />
+                </div>
 
-            <div className={styles.formField}>
-              <label className={styles.toggleLabel}>
-                <input
-                  type="checkbox"
-                  checked={enabled}
-                  onChange={(e) => setEnabled(e.target.checked)}
-                  className={styles.toggleSwitch}
-                />
-                <span className={styles.switchSlider}></span>
-                <span>Enable</span>
-              </label>
-            </div>
+                <div className={styles.formField}>
+                  <label className={styles.label}>Prompt</label>
+                  <div className={styles.instructionCard}>
+                    <InstructionToolbar
+                      onUndo={handleUndo}
+                      onRedo={handleRedo}
+                      canUndo={historyIndex > 0}
+                      canRedo={historyIndex < history.length - 1}
+                      onTranscribe={() => {}}
+                      onOptimize={() => {}}
+                    />
+                    <textarea
+                      ref={promptRef}
+                      className={styles.textarea}
+                      value={prompt}
+                      onChange={(e) => handlePromptChange(e.target.value)}
+                      placeholder="Write a friendly and excited message to the client using this structure:"
+                    />
+                  </div>
+                </div>
 
-            <div className={styles.formField}>
-              <label className={styles.label}>Instructions for AI</label>
-              <div className={styles.instructionCard}>
-                <InstructionToolbar
-                  onUndo={() => handleUndo(false)}
-                  onRedo={() => handleRedo(false)}
-                  canUndo={instructionsHistoryIndex > 0}
-                  canRedo={instructionsHistoryIndex < instructionsHistory.length - 1}
-                  onTranscribe={() => {}}
-                  onOptimize={() => {}}
-                />
-                <textarea
-                  ref={instructionsRef}
-                  className={styles.textarea}
-                  value={instructions}
-                  onChange={(e) => handleInstructionsChange(e.target.value)}
-                  placeholder="Enter instructions for AI to follow when rewriting this template..."
-                />
+                <div className={styles.formActions}>
+                  <button className={styles.secondaryButton} onClick={onClose}>
+                    Cancel
+                  </button>
+                  <button className={styles.primaryButton} onClick={handleSave}>
+                    Save
+                  </button>
+                </div>
               </div>
             </div>
 
-            <div className={styles.formField}>
-              <label className={styles.label}>Message template</label>
-              <div className={styles.instructionCard}>
-                <InstructionToolbar
-                  onUndo={() => handleUndo(true)}
-                  onRedo={() => handleRedo(true)}
-                  canUndo={bodyHistoryIndex > 0}
-                  canRedo={bodyHistoryIndex < bodyHistory.length - 1}
-                  onTranscribe={() => {}}
-                  onOptimize={() => {}}
-                />
-                <textarea
-                  ref={bodyRef}
-                  className={styles.textarea}
-                  value={body}
-                  onChange={(e) => handleBodyChange(e.target.value)}
-                  placeholder="Enter the message template content..."
-                />
+            <div className={styles.rightPanel}>
+              <div className={styles.previewLabel}>Preview</div>
+              <div className={styles.previewContent}>
+                <div className={styles.placeholder}>
+                  See your template in action
+                </div>
               </div>
-            </div>
-
-            <div className={styles.formActions}>
-              <button className={styles.secondaryButton} onClick={onClose}>
-                Cancel
-              </button>
-              <button className={styles.primaryButton} onClick={handleSave}>
-                Save
-              </button>
             </div>
           </div>
         </div>

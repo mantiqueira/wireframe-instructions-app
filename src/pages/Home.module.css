@@ -17,15 +17,23 @@
   align-items: center;
   justify-content: center;
   cursor: default;
+  transition: all 0.2s ease;
 }
 
-.card:first-child {
+.card.clickable {
   cursor: pointer;
 }
 
-.card:first-child:hover {
+.card.clickable:hover {
   border-color: #999;
   background: #fafafa;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card.clickable:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .cardText {

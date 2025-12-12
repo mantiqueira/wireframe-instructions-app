@@ -1,0 +1,119 @@
+.container {
+  width: 100%;
+  max-width: 800px;
+  padding: 40px 0;
+  margin: 0 auto;
+}
+
+.pageTitle {
+  font-size: 32px;
+  font-weight: bold;
+  margin: 0 0 40px 0;
+  color: #000;
+}
+
+.section {
+  margin-bottom: 48px;
+}
+
+.sectionTitle {
+  font-size: 24px;
+  font-weight: bold;
+  margin: 0 0 8px 0;
+  color: #000;
+}
+
+.sectionSubtitle {
+  font-size: 14px;
+  font-style: italic;
+  color: #666;
+  margin: 0 0 16px 0;
+}
+
+.settingsCard {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background: white;
+  overflow: hidden;
+}
+
+.settingRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 20px 24px;
+  min-height: 60px;
+}
+
+.settingInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.settingTitle {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0 0 4px 0;
+  color: #000;
+}
+
+.settingDescription {
+  font-size: 14px;
+  color: #666;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.customizeButton {
+  padding: 8px 16px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: white;
+  font-size: 14px;
+  font-family: inherit;
+  cursor: pointer;
+  color: #000;
+  font-weight: 500;
+  white-space: nowrap;
+  margin-left: 24px;
+  transition: all 0.2s;
+}
+
+.customizeButton:hover {
+  background: #fafafa;
+  border-color: #999;
+}
+
+.select {
+  padding: 8px 32px 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  font-family: inherit;
+  background: white;
+  color: #000;
+  cursor: pointer;
+  white-space: nowrap;
+  margin-left: 24px;
+  min-width: 150px;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  transition: all 0.2s;
+}
+
+.select:focus {
+  outline: none;
+  border-color: #999;
+}
+
+.select:hover {
+  border-color: #999;
+}
+
+.divider {
+  height: 1px;
+  background: #e0e0e0;
+  margin: 0 24px;
+}
