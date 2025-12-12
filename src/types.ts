@@ -25,3 +25,11 @@ export interface ClientMessageTemplate {
   enabled: boolean
 }
 
+export interface AIDocsTemplate {
+  id: string
+  title: string
+  body: string
+  instructions: string
+  enabled: boolean
+}
+

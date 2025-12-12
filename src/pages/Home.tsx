@@ -9,7 +9,7 @@ export default function Home() {
       <div className={`${styles.card} ${styles.clickable}`} onClick={() => navigate('/settings/instructions')}>
         <div className={styles.cardText}>Settings / instructions</div>
       </div>
-      <div className={styles.card}>
+      <div className={styles.card} onClick={() => navigate('/ai-docs')}>
         <div className={styles.cardText}>AI docs templates</div>
       </div>
       <div className={`${styles.card} ${styles.clickable}`} onClick={() => navigate('/settings/client-message-templates')}>

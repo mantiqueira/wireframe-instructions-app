@@ -1,0 +1,162 @@
+.container {
+  width: calc(100% + 80px); /* Break out of content padding (40px * 2) */
+  margin-left: -40px;
+  margin-right: -40px;
+  margin-top: -40px;
+  margin-bottom: -40px;
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 60px); /* Account for breadcrumb */
+  background: #f5f5f5;
+  position: relative;
+}
+
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 24px;
+  background: white;
+  border-bottom: 1px solid #ddd;
+  gap: 16px;
+}
+
+.toolbarLeft {
+  display: flex;
+  align-items: center;
+}
+
+.toolbarCenter {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+  justify-content: center;
+}
+
+.toolbarRight {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.toolbarButton {
+  padding: 6px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: white;
+  font-size: 14px;
+  font-family: inherit;
+  cursor: pointer;
+  color: #000;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.toolbarButton:hover {
+  background: #fafafa;
+}
+
+.formattingButtons {
+  display: flex;
+  gap: 4px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 2px;
+  background: white;
+}
+
+.formatButton {
+  padding: 6px 10px;
+  border: none;
+  background: transparent;
+  font-size: 14px;
+  font-family: inherit;
+  cursor: pointer;
+  color: #000;
+  font-weight: bold;
+  border-radius: 2px;
+}
+
+.formatButton:hover {
+  background: #f0f0f0;
+}
+
+.templateSelector {
+  min-width: 200px;
+}
+
+.convertButton {
+  padding: 6px 12px;
+  border: 1px solid #4caf50;
+  border-radius: 4px;
+  background: #4caf50;
+  color: white;
+  font-size: 14px;
+  font-family: inherit;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.convertButton:hover {
+  background: #45a049;
+}
+
+.documentContainer {
+  flex: 1;
+  overflow-y: auto;
+  padding: 40px;
+  max-width: 900px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.addHeaderButton {
+  padding: 12px 16px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: #f9f9f9;
+  font-size: 14px;
+  font-family: inherit;
+  cursor: pointer;
+  color: #666;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.addHeaderButton:hover {
+  background: #f0f0f0;
+}
+
+.documentContent {
+  background: white;
+  border-radius: 4px;
+  padding: 40px;
+  min-height: 800px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.documentTextarea {
+  width: 100%;
+  min-height: 800px;
+  border: none;
+  font-size: 14px;
+  font-family: inherit;
+  line-height: 1.6;
+  color: #000;
+  background: transparent;
+  resize: none;
+  padding: 0;
+}
+
+.documentTextarea:focus {
+  outline: none;
+}
+
+.documentTextarea::placeholder {
+  color: #999;
+}
+

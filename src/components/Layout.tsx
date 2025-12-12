@@ -29,6 +29,8 @@ export default function Layout({ children }: LayoutProps) {
       return 'Settings / Client Message Templates'
     } else if (location.pathname === '/settings/defaults') {
       return 'Settings / Default values'
+    } else if (location.pathname === '/ai-docs') {
+      return 'AI docs templates'
     }
     return 'Home'
   }

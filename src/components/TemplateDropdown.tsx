@@ -1,11 +1,13 @@
 import { useState, useRef, useEffect } from 'react'
-import { ClientMessageTemplate } from '../types'
+import { ClientMessageTemplate, AIDocsTemplate } from '../types'
 import styles from './TemplateDropdown.module.css'
 
+type Template = ClientMessageTemplate | AIDocsTemplate
+
 interface TemplateDropdownProps {
-  templates: ClientMessageTemplate[]
+  templates: Template[]
   selectedTemplateId: string | null
-  onSelectTemplate: (template: ClientMessageTemplate) => void
+  onSelectTemplate: (template: Template) => void
   onNewTemplate: () => void
   onEdit: (id: string) => void
   onDuplicate: (id: string) => void
@@ -40,7 +42,7 @@ export default function TemplateDropdown({
     template.title.toLowerCase().includes(searchQuery.toLowerCase())
   )
 
-  const handleSelect = (template: ClientMessageTemplate) => {
+  const handleSelect = (template: Template) => {
     onSelectTemplate(template)
     setIsOpen(false)
     setSearchQuery('')
@@ -90,7 +92,7 @@ export default function TemplateDropdown({
 }
 
 interface TemplateItemProps {
-  template: ClientMessageTemplate
+  template: Template
   isSelected: boolean
   onSelect: () => void
   onEdit: () => void
