@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom'
 import { InstructionWhere, Instruction } from '../types'
 import { useInstructions } from '../context/InstructionsContext'
 import InstructionCard from '../components/InstructionCard'
+import InstructionUsagePanel from '../components/InstructionUsagePanel'
 import styles from './InstructionsList.module.css'
 
 const GROUP_CONFIG: Record<InstructionWhere, { title: string; helper: string }> = {
@@ -30,6 +31,7 @@ export default function InstructionsList() {
   })
   const [learnMenuOpen, setLearnMenuOpen] = useState(false)
   const learnMenuRef = useRef<HTMLDivElement>(null)
+  const [selectedInstruction, setSelectedInstruction] = useState<Instruction | null>(null)
 
   const filteredInstructions = useMemo(() => {
     if (!searchQuery.trim()) {
@@ -217,6 +219,7 @@ export default function InstructionsList() {
                       instruction={instruction}
                       onDelete={handleDelete}
                       onToggleStatus={handleToggleStatus}
+                      onSeeUsage={setSelectedInstruction}
                     />
                   ))
                 )}
@@ -225,6 +228,13 @@ export default function InstructionsList() {
           )
         })}
       </div>
+
+      {selectedInstruction && (
+        <InstructionUsagePanel
+          instruction={selectedInstruction}
+          onClose={() => setSelectedInstruction(null)}
+        />
+      )}
     </div>
   )
 }

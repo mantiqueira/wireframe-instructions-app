@@ -97,9 +97,15 @@
   border-color: #999;
 }
 
+.inputWithSuffix {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
 .input {
   width: 100%;
-  padding: 10px 12px;
+  padding: 10px 40px 10px 12px;
   border: 1px solid #ddd;
   border-radius: 4px;
   font-size: 14px;
@@ -111,6 +117,69 @@
 .input:focus {
   outline: none;
   border-color: #999;
+}
+
+.input:disabled {
+  background: #f5f5f5;
+  color: #999;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.suffix {
+  position: absolute;
+  right: 12px;
+  color: #666;
+  font-size: 14px;
+  pointer-events: none;
+}
+
+.toggleLabel {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+  color: #000;
+  cursor: pointer;
+}
+
+.toggleSwitch {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.switchSlider {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 24px;
+  background: #ddd;
+  border-radius: 24px;
+  transition: background 0.3s ease;
+  cursor: pointer;
+}
+
+.switchSlider::before {
+  content: '';
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  left: 3px;
+  top: 3px;
+  background: white;
+  border-radius: 50%;
+  transition: transform 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.toggleSwitch:checked + .switchSlider {
+  background: #4caf50;
+}
+
+.toggleSwitch:checked + .switchSlider::before {
+  transform: translateX(20px);
 }
 
 .explanation {
@@ -155,5 +224,244 @@
 
 .primaryButton:hover {
   background: #333;
+}
+
+.sectionTitle {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0 0 16px 0;
+  color: #000;
+}
+
+.paymentTable {
+  margin-top: 16px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 12px;
+}
+
+.table th {
+  text-align: left;
+  padding: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #666;
+  text-transform: uppercase;
+  border-bottom: 1px solid #eee;
+}
+
+.table th:nth-child(1) {
+  width: 40%;
+}
+
+.table th:nth-child(2) {
+  width: 20%;
+}
+
+.table th:nth-child(3) {
+  width: 30%;
+}
+
+.table th:nth-child(4) {
+  width: 10%;
+}
+
+.table td {
+  padding: 8px 12px;
+  border-bottom: 1px solid #f5f5f5;
+  vertical-align: top;
+}
+
+.tableInput {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  font-family: inherit;
+  background: #f9f9f9;
+  color: #000;
+}
+
+.tableInput:focus {
+  outline: none;
+  border-color: #999;
+  background: white;
+}
+
+.tableInput:disabled {
+  background: #f5f5f5;
+  color: #999;
+  cursor: not-allowed;
+}
+
+.nameCell {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dragHandle {
+  cursor: grab;
+  color: #999;
+  font-size: 16px;
+  line-height: 1;
+  user-select: none;
+  padding: 4px;
+}
+
+.dragHandle:active {
+  cursor: grabbing;
+}
+
+.draggingRow {
+  opacity: 0.5;
+}
+
+.deleteButton {
+  padding: 4px 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: white;
+  font-size: 18px;
+  font-family: inherit;
+  cursor: pointer;
+  color: #666;
+  line-height: 1;
+  min-width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.deleteButton:hover {
+  background: #fee;
+  color: #c00;
+  border-color: #c00;
+}
+
+.amountCell {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.inputError {
+  border-color: #c00 !important;
+  background: #fee !important;
+}
+
+.errorMessage {
+  font-size: 12px;
+  color: #c00;
+  font-weight: 500;
+}
+
+.suggestionPills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.suggestionPill {
+  padding: 4px 10px;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  background: white;
+  font-size: 12px;
+  font-family: inherit;
+  cursor: pointer;
+  color: #666;
+  transition: all 0.2s;
+}
+
+.suggestionPill:hover {
+  background: #f0f0f0;
+  border-color: #999;
+  color: #000;
+}
+
+.dueCell {
+  position: relative;
+}
+
+.dueButton {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  font-family: inherit;
+  background: #f9f9f9;
+  color: #000;
+  cursor: pointer;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.dueButton::after {
+  content: '▼';
+  font-size: 10px;
+  color: #666;
+}
+
+.dueButton:hover {
+  background: #f0f0f0;
+}
+
+.dueDropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  min-width: 200px;
+  margin-top: 4px;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+  overflow: hidden;
+}
+
+.radioOption {
+  display: flex;
+  align-items: center;
+  padding: 10px 12px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.radioOption:hover {
+  background: #f5f5f5;
+}
+
+.radioOption input[type="radio"] {
+  margin-right: 8px;
+  cursor: pointer;
+  accent-color: #4caf50;
+}
+
+.addPaymentButton {
+  padding: 8px 16px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: white;
+  font-size: 18px;
+  font-family: inherit;
+  cursor: pointer;
+  color: #000;
+  width: 100%;
+  text-align: center;
+}
+
+.addPaymentButton:hover {
+  background: #fafafa;
 }
 

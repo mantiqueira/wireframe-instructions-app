@@ -5,15 +5,11 @@ interface PaymentPresetsModalProps {
   paymentMethods: {
     debitCredit: boolean
     achTransfer: boolean
-    none: boolean
-    other: boolean
   }
   onSave: (data: {
     paymentMethods: {
       debitCredit: boolean
       achTransfer: boolean
-      none: boolean
-      other: boolean
     }
   }) => void
   onClose: () => void
@@ -71,24 +67,6 @@ export default function PaymentPresetsModal({
                 className={styles.checkbox}
               />
               <span>ACH transfer</span>
-            </label>
-            <label className={styles.checkboxLabel}>
-              <input
-                type="checkbox"
-                checked={paymentMethods.none}
-                onChange={() => handlePaymentMethodChange('none')}
-                className={styles.checkbox}
-              />
-              <span>None</span>
-            </label>
-            <label className={styles.checkboxLabel}>
-              <input
-                type="checkbox"
-                checked={paymentMethods.other}
-                onChange={() => handlePaymentMethodChange('other')}
-                className={styles.checkbox}
-              />
-              <span>?????</span>
             </label>
           </div>
         </div>

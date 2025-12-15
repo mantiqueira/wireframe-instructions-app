@@ -8,14 +8,14 @@ interface TaxRateModalProps {
 }
 
 export default function TaxRateModal({ value: initialValue, onSave, onClose }: TaxRateModalProps) {
-  const [value, setValue] = useState(initialValue)
+  const [value, setValue] = useState(initialValue.replace('%', ''))
 
   useEffect(() => {
-    setValue(initialValue)
+    setValue(initialValue.replace('%', ''))
   }, [initialValue])
 
   const handleSave = () => {
-    onSave(value)
+    onSave(`${value}%`)
   }
 
   return (
@@ -29,16 +29,18 @@ export default function TaxRateModal({ value: initialValue, onSave, onClose }: T
         <div className={styles.content}>
           <div className={styles.formField}>
             <label className={styles.label}>Tax rate</label>
-            <select
-              className={styles.select}
-              value={value}
-              onChange={(e) => setValue(e.target.value)}
-            >
-              <option>5.87%</option>
-              <option>4.5%</option>
-              <option>6.0%</option>
-              <option>7.0%</option>
-            </select>
+            <div className={styles.inputWithSuffix}>
+              <input
+                type="number"
+                className={styles.input}
+                value={value}
+                onChange={(e) => setValue(e.target.value)}
+                min="0"
+                max="100"
+                step="0.01"
+              />
+              <span className={styles.suffix}>%</span>
+            </div>
             <p className={styles.explanation}>Default tax rate for calculations.</p>
           </div>
         </div>

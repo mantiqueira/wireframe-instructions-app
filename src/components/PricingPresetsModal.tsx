@@ -66,10 +66,15 @@ export default function PricingPresetsModal({
               value={markupOption}
               onChange={(e) => setMarkupOption(e.target.value)}
             >
-              <option>Use defaults everytime.</option>
-              <option>Custom</option>
+              <option>Use defaults every time</option>
+              <option>Use the last used values</option>
             </select>
-            <p className={styles.explanation}>Some explanation here.</p>
+            <p className={styles.explanation}>
+              {markupOption === 'Use defaults every time' 
+                ? 'Set the default markup values that will be used for all projects.'
+                : 'The last used markup values will be automatically applied to new projects.'
+              }
+            </p>
           </div>
 
           <div className={styles.markupGrid}>
@@ -80,6 +85,7 @@ export default function PricingPresetsModal({
                 className={styles.input}
                 value={laborMarkup}
                 onChange={(e) => setLaborMarkup(e.target.value)}
+                disabled={markupOption === 'Use the last used values'}
               />
             </div>
 
@@ -90,6 +96,7 @@ export default function PricingPresetsModal({
                 className={styles.input}
                 value={materialMarkup}
                 onChange={(e) => setMaterialMarkup(e.target.value)}
+                disabled={markupOption === 'Use the last used values'}
               />
             </div>
 
@@ -100,6 +107,7 @@ export default function PricingPresetsModal({
                 className={styles.input}
                 value={laborMaterialMarkup}
                 onChange={(e) => setLaborMaterialMarkup(e.target.value)}
+                disabled={markupOption === 'Use the last used values'}
               />
             </div>
 
@@ -110,11 +118,10 @@ export default function PricingPresetsModal({
                 className={styles.input}
                 value={otherMarkup}
                 onChange={(e) => setOtherMarkup(e.target.value)}
+                disabled={markupOption === 'Use the last used values'}
               />
             </div>
           </div>
-
-          <button className={styles.addButton}>+ Add markup</button>
         </div>
 
         <div className={styles.footer}>

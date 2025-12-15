@@ -7,12 +7,14 @@ interface InstructionCardProps {
   instruction: Instruction
   onDelete: (id: string) => void
   onToggleStatus: (id: string) => void
+  onSeeUsage: (instruction: Instruction) => void
 }
 
 export default function InstructionCard({
   instruction,
   onDelete,
-  onToggleStatus
+  onToggleStatus,
+  onSeeUsage
 }: InstructionCardProps) {
   const [menuOpen, setMenuOpen] = useState(false)
   const navigate = useNavigate()
@@ -49,7 +51,7 @@ export default function InstructionCard({
 
   const handleSeeUsage = () => {
     setMenuOpen(false)
-    // No behavior for MVP
+    onSeeUsage(instruction)
   }
 
   const handleToggle = () => {

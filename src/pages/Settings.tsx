@@ -1,11 +1,11 @@
 import { useState } from 'react'
+import { Payment } from '../components/PaymentTermsModal'
 import GeneralSettingsModal from '../components/GeneralSettingsModal'
 import PricingPresetsModal from '../components/PricingPresetsModal'
 import PaymentPresetsModal from '../components/PaymentPresetsModal'
 import AIPersonalityModal from '../components/AIPersonalityModal'
 import ProfitMarginModal from '../components/ProfitMarginModal'
 import PaymentTermsModal from '../components/PaymentTermsModal'
-import DepositModal from '../components/DepositModal'
 import TaxRateModal from '../components/TaxRateModal'
 import styles from './Settings.module.css'
 
@@ -18,24 +18,26 @@ export default function Settings() {
   const [address, setAddress] = useState('Street of streets 1234')
 
   // Pricing presets
-  const [markupOption, setMarkupOption] = useState('Use defaults everytime.')
+  const [markupOption, setMarkupOption] = useState('Use defaults every time')
   const [laborMarkup, setLaborMarkup] = useState('30%')
   const [materialMarkup, setMaterialMarkup] = useState('15%')
   const [laborMaterialMarkup, setLaborMaterialMarkup] = useState('20%')
   const [otherMarkup, setOtherMarkup] = useState('5%')
+  const [profitMarginEnabled, setProfitMarginEnabled] = useState(true)
   const [minProfitMargin, setMinProfitMargin] = useState('20%')
   const [maxProfitMargin, setMaxProfitMargin] = useState('80%')
 
   // Payment presets
-  const [paymentTerms, setPaymentTerms] = useState('(Net 15/30/45/60)')
-  const [requireDeposit, setRequireDeposit] = useState('Yes')
-  const [depositPercentage, setDepositPercentage] = useState('20%')
+  const [paymentSchedule, setPaymentSchedule] = useState<Payment[]>([
+    { id: '1', name: 'Payment 1', percentage: '100', due: 'On completion' },
+    { id: '2', name: 'Payment 2', percentage: '0', due: 'On approval' },
+    { id: '3', name: 'Payment 3', percentage: '0', due: 'On approval' },
+    { id: '4', name: 'Payment 4', percentage: '0', due: 'On approval' }
+  ])
   const [taxRate, setTaxRate] = useState('5.87%')
   const [paymentMethods, setPaymentMethods] = useState({
     debitCredit: true,
-    achTransfer: true,
-    none: true,
-    other: true
+    achTransfer: true
   })
 
   // AI personality
@@ -49,7 +51,6 @@ export default function Settings() {
   const [showPricingModal, setShowPricingModal] = useState(false)
   const [showProfitMarginModal, setShowProfitMarginModal] = useState(false)
   const [showPaymentTermsModal, setShowPaymentTermsModal] = useState(false)
-  const [showDepositModal, setShowDepositModal] = useState(false)
   const [showTaxRateModal, setShowTaxRateModal] = useState(false)
   const [showPaymentModal, setShowPaymentModal] = useState(false)
   const [showAIModal, setShowAIModal] = useState(false)
@@ -95,11 +96,19 @@ export default function Settings() {
 
           <div className={styles.settingRow}>
             <div className={styles.settingInfo}>
-              <h3 className={styles.settingTitle}>Profit margin per project</h3>
-              <p className={styles.settingDescription}>Minimum: {minProfitMargin}, Maximum: {maxProfitMargin}</p>
+              <h3 className={styles.settingTitle}>Profit margin limits</h3>
+              <p className={styles.settingDescription}>
+                {profitMarginEnabled 
+                  ? `When enabled, projects will be constrained by the minimum and maximum profit margins set below.`
+                  : 'Profit margin constraints are disabled. Projects will not be limited by profit margin percentages.'
+                }
+              </p>
             </div>
             <button className={styles.customizeButton} onClick={() => setShowProfitMarginModal(true)}>
-              Customize
+              {profitMarginEnabled 
+                ? `${minProfitMargin.replace('%', '')}%–${maxProfitMargin.replace('%', '')}%`
+                : 'Disabled'
+              }
             </button>
           </div>
         </div>
@@ -116,24 +125,7 @@ export default function Settings() {
               <p className={styles.settingDescription}>Set default payment terms for invoices</p>
             </div>
             <button className={styles.customizeButton} onClick={() => setShowPaymentTermsModal(true)}>
-              {paymentTerms}
-            </button>
-          </div>
-
-          <div className={styles.divider}></div>
-
-          <div className={styles.settingRow}>
-            <div className={styles.settingInfo}>
-              <h3 className={styles.settingTitle}>Deposit</h3>
-              <p className={styles.settingDescription}>
-                {requireDeposit === 'Yes' 
-                  ? `Require deposit: ${requireDeposit}, Percentage: ${depositPercentage}`
-                  : `Require deposit: ${requireDeposit}`
-                }
-              </p>
-            </div>
-            <button className={styles.customizeButton} onClick={() => setShowDepositModal(true)}>
-              Customize
+              {paymentSchedule.length} {paymentSchedule.length === 1 ? 'payment' : 'payments'}
             </button>
           </div>
 
@@ -233,9 +225,11 @@ export default function Settings() {
 
       {showProfitMarginModal && (
         <ProfitMarginModal
+          enabled={profitMarginEnabled}
           minValue={minProfitMargin}
           maxValue={maxProfitMargin}
           onSave={(data) => {
+            setProfitMarginEnabled(data.enabled)
             setMinProfitMargin(data.minValue)
             setMaxProfitMargin(data.maxValue)
             setShowProfitMarginModal(false)
@@ -246,25 +240,12 @@ export default function Settings() {
 
       {showPaymentTermsModal && (
         <PaymentTermsModal
-          value={paymentTerms}
-          onSave={(value) => {
-            setPaymentTerms(value)
+          payments={paymentSchedule}
+          onSave={(payments) => {
+            setPaymentSchedule(payments)
             setShowPaymentTermsModal(false)
           }}
           onClose={() => setShowPaymentTermsModal(false)}
-        />
-      )}
-
-      {showDepositModal && (
-        <DepositModal
-          requireDeposit={requireDeposit}
-          depositPercentage={depositPercentage}
-          onSave={(data) => {
-            setRequireDeposit(data.requireDeposit)
-            setDepositPercentage(data.depositPercentage)
-            setShowDepositModal(false)
-          }}
-          onClose={() => setShowDepositModal(false)}
         />
       )}
 
