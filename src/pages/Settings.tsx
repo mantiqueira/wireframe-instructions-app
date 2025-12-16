@@ -57,7 +57,7 @@ export default function Settings() {
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.pageTitle}>Settings/Presets or defaults values</h1>
+      <h1 className={styles.pageTitle}>General Settings</h1>
 
       {/* General settings */}
       <section className={styles.section}>
