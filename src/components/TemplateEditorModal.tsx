@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 import { useClientMessageTemplates } from '../context/ClientMessageTemplatesContext'
+import { ClientMessageTemplate } from '../types'
 import InstructionToolbar from './InstructionToolbar'
 import { useAutoResizeTextarea } from '../hooks/useAutoResizeTextarea'
 import styles from './TemplateEditorModal.module.css'
@@ -7,19 +8,20 @@ import styles from './TemplateEditorModal.module.css'
 interface TemplateEditorModalProps {
   templateId: string | null
   onClose: () => void
+  initialTemplate?: Omit<ClientMessageTemplate, 'id'>
 }
 
-const DEFAULT_PROMPT = `Write a friendly and excited message to the client using this structure:
+const DEFAULT_PROMPT = `Write a friendly and excited message to the client about getting their proposal/estimate approved using this structure:
 
 Hi [client name]! 🎉
 
-I'm excited to share the [document type] for the [project type] at [project location].
+I'm excited to share the proposal for your [project type] at [project location].
 
-[One short sentence about why this update is exciting, using: [extra context]].
+This project is going to transform your space with [extra context], and I can't wait to get started.
 
-Take a look at the details below. Let me know if you want to chat or have any questions.`
+Please review the estimate below and let me know if you'd like to approve and move forward. I'm here to answer any questions you might have!`
 
-export default function TemplateEditorModal({ templateId, onClose }: TemplateEditorModalProps) {
+export default function TemplateEditorModal({ templateId, onClose, initialTemplate }: TemplateEditorModalProps) {
   const { templates, addTemplate, updateTemplate } = useClientMessageTemplates()
   const isEditing = templateId && templateId !== 'new'
   const existingTemplate = isEditing ? templates.find((t) => t.id === templateId) : null
@@ -42,12 +44,20 @@ export default function TemplateEditorModal({ templateId, onClose }: TemplateEdi
       setHistory([existingTemplate.instructions || existingTemplate.body])
       setHistoryIndex(0)
     } else if (templateId === 'new') {
-      // Set default prompt for new templates
-      setPrompt(DEFAULT_PROMPT)
-      setHistory([DEFAULT_PROMPT])
-      setHistoryIndex(0)
+      // If initialTemplate is provided, use it; otherwise use default
+      if (initialTemplate) {
+        setTitle(initialTemplate.title)
+        setPrompt(initialTemplate.instructions || initialTemplate.body)
+        setHistory([initialTemplate.instructions || initialTemplate.body])
+        setHistoryIndex(0)
+      } else {
+        // Set default prompt for new templates
+        setPrompt(DEFAULT_PROMPT)
+        setHistory([DEFAULT_PROMPT])
+        setHistoryIndex(0)
+      }
     }
-  }, [existingTemplate, templateId])
+  }, [existingTemplate, templateId, initialTemplate])
 
   const addToHistory = (text: string) => {
     const newHistory = history.slice(0, historyIndex + 1)

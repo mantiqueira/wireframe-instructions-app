@@ -8,6 +8,7 @@ interface ClientMessageTemplatesContextType {
   updateTemplate: (id: string, template: Partial<ClientMessageTemplate>) => void
   deleteTemplate: (id: string) => void
   duplicateTemplate: (id: string) => void
+  resetTemplates: () => void
 }
 
 const ClientMessageTemplatesContext = createContext<ClientMessageTemplatesContextType | undefined>(undefined)
@@ -45,9 +46,13 @@ export function ClientMessageTemplatesProvider({ children }: { children: ReactNo
     }
   }
 
+  const resetTemplates = () => {
+    setTemplates(seedClientMessageTemplates)
+  }
+
   return (
     <ClientMessageTemplatesContext.Provider
-      value={{ templates, addTemplate, updateTemplate, deleteTemplate, duplicateTemplate }}
+      value={{ templates, addTemplate, updateTemplate, deleteTemplate, duplicateTemplate, resetTemplates }}
     >
       {children}
     </ClientMessageTemplatesContext.Provider>

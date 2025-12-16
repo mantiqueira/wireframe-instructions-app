@@ -7,6 +7,7 @@ interface InstructionsContextType {
   addInstruction: (instruction: Omit<Instruction, 'id' | 'appliedCount'>) => void
   deleteInstruction: (id: string) => void
   updateInstructionStatus: (id: string, status: Instruction['status']) => void
+  resetInstructions: () => void
 }
 
 const InstructionsContext = createContext<InstructionsContextType | undefined>(undefined)
@@ -33,9 +34,13 @@ export function InstructionsProvider({ children }: { children: ReactNode }) {
     )
   }
 
+  const resetInstructions = () => {
+    setInstructions(seedInstructions)
+  }
+
   return (
     <InstructionsContext.Provider
-      value={{ instructions, addInstruction, deleteInstruction, updateInstructionStatus }}
+      value={{ instructions, addInstruction, deleteInstruction, updateInstructionStatus, resetInstructions }}
     >
       {children}
     </InstructionsContext.Provider>

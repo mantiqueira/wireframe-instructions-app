@@ -12,6 +12,7 @@ interface TemplateDropdownProps {
   onEdit: (id: string) => void
   onDuplicate: (id: string) => void
   onDelete: (id: string) => void
+  onSeeExamples?: () => void
 }
 
 export default function TemplateDropdown({
@@ -21,7 +22,8 @@ export default function TemplateDropdown({
   onNewTemplate,
   onEdit,
   onDuplicate,
-  onDelete
+  onDelete,
+  onSeeExamples
 }: TemplateDropdownProps) {
   const [isOpen, setIsOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
@@ -60,14 +62,17 @@ export default function TemplateDropdown({
       {isOpen && (
         <div className={styles.dropdown}>
           <div className={styles.searchContainer}>
-            <input
-              type="text"
-              className={styles.searchInput}
-              placeholder="Q Search..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              autoFocus
-            />
+            <div className={styles.searchWrapper}>
+              <span className={styles.searchIcon}>🔍</span>
+              <input
+                type="text"
+                className={styles.searchInput}
+                placeholder="Search..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                autoFocus
+              />
+            </div>
           </div>
           <div className={styles.templateList}>
             {filteredTemplates.map((template) => (
@@ -82,6 +87,17 @@ export default function TemplateDropdown({
               />
             ))}
           </div>
+          {onSeeExamples && (
+            <button 
+              className={styles.examplesButton} 
+              onClick={() => {
+                onSeeExamples()
+                setIsOpen(false)
+              }}
+            >
+              See examples
+            </button>
+          )}
           <button className={styles.newTemplateButton} onClick={onNewTemplate}>
             New template
           </button>

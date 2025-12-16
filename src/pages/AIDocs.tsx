@@ -3,6 +3,8 @@ import { useAIDocsTemplates } from '../context/AIDocsTemplatesContext'
 import TemplateDropdown from '../components/TemplateDropdown'
 import MessageLoadingState from '../components/MessageLoadingState'
 import AIDocsTemplateEditorModal from '../components/AIDocsTemplateEditorModal'
+import ExamplesModal from '../components/ExamplesModal'
+import { exampleAIDocsTemplates } from '../data/exampleAIDocsTemplates'
 import { useAutoResizeTextarea } from '../hooks/useAutoResizeTextarea'
 import styles from './AIDocs.module.css'
 
@@ -12,6 +14,8 @@ export default function AIDocs() {
   const [document, setDocument] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [editingTemplateId, setEditingTemplateId] = useState<string | null>(null)
+  const [showExamplesModal, setShowExamplesModal] = useState(false)
+  const [initialTemplate, setInitialTemplate] = useState<any>(null)
   const documentTextareaRef = useRef<HTMLTextAreaElement>(null)
 
   // Auto-resize textarea based on content
@@ -84,15 +88,23 @@ Rough Plumbing Installation
   }
 
   const handleNewTemplate = () => {
+    setInitialTemplate(null)
     setEditingTemplateId('new')
-  }
-
-  const handleCloseModal = () => {
-    setEditingTemplateId(null)
   }
 
   const handleEditTemplate = (id: string) => {
     setEditingTemplateId(id)
+  }
+
+  const handleUseExample = (example: any) => {
+    setInitialTemplate(example)
+    setEditingTemplateId('new')
+    setShowExamplesModal(false)
+  }
+
+  const handleCloseModal = () => {
+    setEditingTemplateId(null)
+    setInitialTemplate(null)
   }
 
   return (
@@ -128,6 +140,7 @@ Rough Plumbing Installation
               onEdit={handleEditTemplate}
               onDuplicate={duplicateTemplate}
               onDelete={deleteTemplate}
+              onSeeExamples={() => setShowExamplesModal(true)}
             />
           </div>
           <button className={styles.convertButton}>
@@ -171,6 +184,16 @@ This scope of work outlines the complete renovation of a 3x5 bathroom featuring 
         <AIDocsTemplateEditorModal
           templateId={editingTemplateId}
           onClose={handleCloseModal}
+          initialTemplate={initialTemplate || undefined}
+        />
+      )}
+
+      {showExamplesModal && (
+        <ExamplesModal
+          examples={exampleAIDocsTemplates}
+          onUseTemplate={handleUseExample}
+          onClose={() => setShowExamplesModal(false)}
+          type="ai-docs"
         />
       )}
     </div>

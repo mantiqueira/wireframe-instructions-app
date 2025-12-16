@@ -8,6 +8,7 @@ interface AIDocsTemplatesContextType {
   updateTemplate: (id: string, template: Partial<AIDocsTemplate>) => void
   deleteTemplate: (id: string) => void
   duplicateTemplate: (id: string) => void
+  resetTemplates: () => void
 }
 
 const AIDocsTemplatesContext = createContext<AIDocsTemplatesContextType | undefined>(undefined)
@@ -45,9 +46,13 @@ export function AIDocsTemplatesProvider({ children }: { children: ReactNode }) {
     }
   }
 
+  const resetTemplates = () => {
+    setTemplates(seedAIDocsTemplates)
+  }
+
   return (
     <AIDocsTemplatesContext.Provider
-      value={{ templates, addTemplate, updateTemplate, deleteTemplate, duplicateTemplate }}
+      value={{ templates, addTemplate, updateTemplate, deleteTemplate, duplicateTemplate, resetTemplates }}
     >
       {children}
     </AIDocsTemplatesContext.Provider>

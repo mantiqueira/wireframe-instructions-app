@@ -3,6 +3,8 @@ import { useClientMessageTemplates } from '../context/ClientMessageTemplatesCont
 import TemplateDropdown from '../components/TemplateDropdown'
 import MessageLoadingState from '../components/MessageLoadingState'
 import TemplateEditorModal from '../components/TemplateEditorModal'
+import ExamplesModal from '../components/ExamplesModal'
+import { exampleClientMessageTemplates } from '../data/exampleClientMessageTemplates'
 import { useAutoResizeTextarea } from '../hooks/useAutoResizeTextarea'
 import styles from './ClientMessageTemplates.module.css'
 
@@ -12,6 +14,8 @@ export default function ClientMessageTemplates() {
   const [message, setMessage] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [editingTemplateId, setEditingTemplateId] = useState<string | null>(null)
+  const [showExamplesModal, setShowExamplesModal] = useState(false)
+  const [initialTemplate, setInitialTemplate] = useState<any>(null)
   const messageTextareaRef = useRef<HTMLTextAreaElement>(null)
 
   // Auto-resize textarea based on content
@@ -36,15 +40,23 @@ export default function ClientMessageTemplates() {
   }
 
   const handleNewTemplate = () => {
+    setInitialTemplate(null)
     setEditingTemplateId('new')
-  }
-
-  const handleCloseModal = () => {
-    setEditingTemplateId(null)
   }
 
   const handleEditTemplate = (id: string) => {
     setEditingTemplateId(id)
+  }
+
+  const handleUseExample = (example: any) => {
+    setInitialTemplate(example)
+    setEditingTemplateId('new')
+    setShowExamplesModal(false)
+  }
+
+  const handleCloseModal = () => {
+    setEditingTemplateId(null)
+    setInitialTemplate(null)
   }
 
   return (
@@ -121,6 +133,7 @@ export default function ClientMessageTemplates() {
                   onEdit={handleEditTemplate}
                   onDuplicate={duplicateTemplate}
                   onDelete={deleteTemplate}
+                  onSeeExamples={() => setShowExamplesModal(true)}
                 />
               </div>
             </div>
@@ -260,6 +273,16 @@ export default function ClientMessageTemplates() {
         <TemplateEditorModal
           templateId={editingTemplateId}
           onClose={handleCloseModal}
+          initialTemplate={initialTemplate || undefined}
+        />
+      )}
+
+      {showExamplesModal && (
+        <ExamplesModal
+          examples={exampleClientMessageTemplates}
+          onUseTemplate={handleUseExample}
+          onClose={() => setShowExamplesModal(false)}
+          type="client-message"
         />
       )}
     </div>

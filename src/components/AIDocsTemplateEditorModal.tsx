@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 import { useAIDocsTemplates } from '../context/AIDocsTemplatesContext'
+import { AIDocsTemplate } from '../types'
 import InstructionToolbar from './InstructionToolbar'
 import { useAutoResizeTextarea } from '../hooks/useAutoResizeTextarea'
 import styles from './TemplateEditorModal.module.css'
@@ -7,6 +8,7 @@ import styles from './TemplateEditorModal.module.css'
 interface AIDocsTemplateEditorModalProps {
   templateId: string | null
   onClose: () => void
+  initialTemplate?: Omit<AIDocsTemplate, 'id'>
 }
 
 const DEFAULT_PROMPT = `Create a comprehensive scope of work document using this structure:
@@ -28,7 +30,7 @@ SPECIFIC TASKS AND DELIVERABLES
 
 [Detailed tasks and phases organized by project phases]`
 
-export default function AIDocsTemplateEditorModal({ templateId, onClose }: AIDocsTemplateEditorModalProps) {
+export default function AIDocsTemplateEditorModal({ templateId, onClose, initialTemplate }: AIDocsTemplateEditorModalProps) {
   const { templates, addTemplate, updateTemplate } = useAIDocsTemplates()
   const isEditing = templateId && templateId !== 'new'
   const existingTemplate = isEditing ? templates.find((t) => t.id === templateId) : null
@@ -52,11 +54,19 @@ export default function AIDocsTemplateEditorModal({ templateId, onClose }: AIDoc
       setHistory([existingTemplate.instructions || existingTemplate.body])
       setHistoryIndex(0)
     } else if (templateId === 'new') {
-      setPrompt(DEFAULT_PROMPT)
-      setHistory([DEFAULT_PROMPT])
-      setHistoryIndex(0)
+      // If initialTemplate is provided, use it; otherwise use default
+      if (initialTemplate) {
+        setTitle(initialTemplate.title)
+        setPrompt(initialTemplate.instructions || initialTemplate.body)
+        setHistory([initialTemplate.instructions || initialTemplate.body])
+        setHistoryIndex(0)
+      } else {
+        setPrompt(DEFAULT_PROMPT)
+        setHistory([DEFAULT_PROMPT])
+        setHistoryIndex(0)
+      }
     }
-  }, [existingTemplate, templateId])
+  }, [existingTemplate, templateId, initialTemplate])
 
   const addToHistory = (text: string) => {
     const newHistory = history.slice(0, historyIndex + 1)
