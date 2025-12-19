@@ -59,7 +59,6 @@ export default function Settings() {
       {/* General settings */}
       <section className={styles.section}>
         <h2 className={styles.sectionTitle}>General settings</h2>
-        <p className={styles.sectionSubtitle}>Default stuff inside handoff.</p>
         
         <div className={styles.settingsCard}>
           <div className={styles.settingRow}>
