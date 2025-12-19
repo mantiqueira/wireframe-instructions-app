@@ -32,22 +32,50 @@ export default function Layout({ children }: LayoutProps) {
   const getBreadcrumb = () => {
     if (location.pathname === '/') {
       return 'Home'
-    } else if (location.pathname === '/settings/instructions') {
-      return 'Settings / Instructions'
-    } else if (location.pathname === '/settings/instructions/new') {
+    } else if (location.pathname === '/settings') {
+      return 'Settings'
+    } else if (location.pathname === '/settings/general') {
       return (
         <>
-          <Link to="/settings/instructions" className={styles.breadcrumbLink}>
-            &lt; Instructions
+          <Link to="/settings" className={styles.breadcrumbLink}>
+            Settings
           </Link>
+          {' / '}
+          <span>General settings</span>
+        </>
+      )
+    } else if (location.pathname === '/settings/ai-presets/instructions') {
+      return (
+        <>
+          <Link to="/settings" className={styles.breadcrumbLink}>
+            Settings
+          </Link>
+          {' / '}
+          <Link to="/settings/ai-presets/instructions" className={styles.breadcrumbLink}>
+            AI presets
+          </Link>
+          {' / '}
+          <span>Instructions</span>
+        </>
+      )
+    } else if (location.pathname === '/settings/ai-presets/instructions/new') {
+      return (
+        <>
+          <Link to="/settings" className={styles.breadcrumbLink}>
+            Settings
+          </Link>
+          {' / '}
+          <Link to="/settings/ai-presets/instructions" className={styles.breadcrumbLink}>
+            AI presets / Instructions
+          </Link>
+          {' / '}
+          <span>New</span>
         </>
       )
     } else if (location.pathname === '/proposal') {
       return 'Proposal / Client Message'
     } else if (location.pathname === '/settings/client-message-templates') {
       return 'Settings / Client Message Templates'
-    } else if (location.pathname === '/settings/defaults') {
-      return 'Settings / Default values'
     } else if (location.pathname === '/ai-docs') {
       return 'AI docs templates'
     }

@@ -4,11 +4,13 @@ import { ClientMessageTemplatesProvider } from './context/ClientMessageTemplates
 import { AIDocsTemplatesProvider } from './context/AIDocsTemplatesContext'
 import Layout from './components/Layout'
 import Home from './pages/Home'
+import SettingsIndex from './pages/SettingsIndex'
+import GeneralSettings from './pages/GeneralSettings'
+import AIPresets from './pages/AIPresets'
 import InstructionsList from './pages/InstructionsList'
 import NewInstruction from './pages/NewInstruction'
 import Proposal from './pages/Proposal'
 import ClientMessageTemplates from './pages/ClientMessageTemplates'
-import Settings from './pages/Settings'
 import AIDocs from './pages/AIDocs'
 
 function App() {
@@ -19,11 +21,14 @@ function App() {
           <Layout>
             <Routes>
               <Route path="/" element={<Home />} />
-              <Route path="/settings/instructions" element={<InstructionsList />} />
-              <Route path="/settings/instructions/new" element={<NewInstruction />} />
+              <Route path="/settings" element={<SettingsIndex />} />
+              <Route path="/settings/general" element={<GeneralSettings />} />
+              <Route path="/settings/ai-presets" element={<AIPresets />}>
+                <Route path="instructions" element={<InstructionsList />} />
+                <Route path="instructions/new" element={<NewInstruction />} />
+              </Route>
               <Route path="/proposal" element={<Proposal />} />
               <Route path="/settings/client-message-templates" element={<ClientMessageTemplates />} />
-              <Route path="/settings/defaults" element={<Settings />} />
               <Route path="/ai-docs" element={<AIDocs />} />
             </Routes>
           </Layout>

@@ -6,8 +6,8 @@ export default function Home() {
 
   return (
     <div className={styles.container}>
-      <div className={styles.card} onClick={() => navigate('/settings/instructions')}>
-        <div className={styles.cardText}>Settings / instructions</div>
+      <div className={styles.card} onClick={() => navigate('/settings')}>
+        <div className={styles.cardText}>Settings</div>
       </div>
       <div className={styles.card} onClick={() => navigate('/ai-docs')}>
         <div className={styles.cardText}>AI docs templates</div>
@@ -15,8 +15,8 @@ export default function Home() {
       <div className={styles.card} onClick={() => navigate('/settings/client-message-templates')}>
         <div className={styles.cardText}>Client message templates</div>
       </div>
-      <div className={styles.card} onClick={() => navigate('/settings/defaults')}>
-        <div className={styles.cardText}>Settings / default values</div>
+      <div className={styles.card} onClick={() => navigate('/proposal')}>
+        <div className={styles.cardText}>Proposal</div>
       </div>
     </div>
   )

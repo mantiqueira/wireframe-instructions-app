@@ -62,10 +62,10 @@ export default function WarningBanner({
               conflictingInstructions.map((conflictingInst) => (
                 <a
                   key={conflictingInst.id}
-                  href={`/settings/instructions/new?id=${conflictingInst.id}`}
+                  href={`/settings/ai-presets/instructions/new?id=${conflictingInst.id}`}
                   onClick={(e) => {
                     e.preventDefault()
-                    navigate(`/settings/instructions/new?id=${conflictingInst.id}`)
+                    navigate(`/settings/ai-presets/instructions/new?id=${conflictingInst.id}`)
                   }}
                   className={styles.conflictLink}
                 >

@@ -69,11 +69,11 @@ export default function Proposal() {
       <div className={styles.document}>
         <div className={styles.companyInfo}>
           <div className={styles.companyHeader}>
-            <div className={styles.companyLogo}>MANTI</div>
+            <div className={styles.companyLogo}>SUMMIT</div>
           </div>
           <div className={styles.companyRight}>
             <div>
-              <div className={styles.companyName}>Manti Co</div>
+              <div className={styles.companyName}>Summit Construction Group</div>
               <div className={styles.companyDetails}>
                 <div>fernando@handoff.ai</div>
                 <div>(786) 469-5675</div>

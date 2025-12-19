@@ -6,7 +6,7 @@ import PaymentPresetsModal from '../components/PaymentPresetsModal'
 import AIPersonalityModal from '../components/AIPersonalityModal'
 import PaymentTermsModal from '../components/PaymentTermsModal'
 import TaxRateModal from '../components/TaxRateModal'
-import styles from './Settings.module.css'
+import styles from './GeneralSettings.module.css'
 
 export default function Settings() {
   // General settings

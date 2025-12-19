@@ -73,7 +73,7 @@ export default function InstructionCard({
       return
     }
     // Navigate when clicking on the card content
-    navigate(`/settings/instructions/new?id=${instruction.id}`)
+    navigate(`/settings/ai-presets/instructions/new?id=${instruction.id}`)
   }
 
   return (

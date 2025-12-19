@@ -146,7 +146,7 @@ export default function NewInstruction() {
     })
     setShowToast(true)
     setTimeout(() => {
-      navigate('/settings/instructions')
+      navigate('/settings/ai-presets/instructions')
     }, 500)
   }
 
@@ -266,7 +266,7 @@ export default function NewInstruction() {
           <div className={styles.formActions}>
             <button
               className={styles.secondaryButton}
-              onClick={() => navigate('/settings/instructions')}
+              onClick={() => navigate('/settings/ai-presets/instructions')}
             >
               Cancel
             </button>

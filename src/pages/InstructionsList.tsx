@@ -72,7 +72,7 @@ export default function InstructionsList() {
   }
 
   const handleAddInstruction = (where: InstructionWhere) => {
-    navigate(`/settings/instructions/new?group=${where}`)
+    navigate(`/settings/ai-presets/instructions/new?group=${where}`)
   }
 
   const handleDismissBanner = () => {
@@ -85,7 +85,7 @@ export default function InstructionsList() {
     const lastPath = sessionStorage.getItem('lastPath')
     
     // If we're on instructions page and last path was home, reset banner
-    if (location.pathname === '/settings/instructions' && lastPath === '/') {
+    if (location.pathname === '/settings/ai-presets/instructions' && lastPath === '/') {
       sessionStorage.removeItem('estimateBannerDismissed')
       setBannerDismissed(false)
     }
@@ -110,6 +110,11 @@ export default function InstructionsList() {
 
   return (
     <div className={styles.container}>
+      <div className={styles.backButtonContainer}>
+        <button className={styles.backButton} onClick={() => navigate('/settings')}>
+          ← Back to Settings
+        </button>
+      </div>
       <div className={styles.header}>
         <div className={styles.headerLeft}>
           <h1 className={styles.title}>Instructions</h1>
