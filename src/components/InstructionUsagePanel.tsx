@@ -73,11 +73,6 @@ const generateUsageRecords = (count: number): UsageRecord[] => {
 export default function InstructionUsagePanel({ instruction, onClose }: InstructionUsagePanelProps) {
   const [timePeriod, setTimePeriod] = useState<TimePeriod>('30')
   
-  // Calculate percentage (mock calculation - in real app would come from API)
-  // Assuming total estimates/proposals created
-  const totalDocuments = 200 // Mock total
-  const percentage = totalDocuments > 0 ? Math.round((instruction.appliedCount / totalDocuments) * 100) : 0
-  
   // Generate records based on appliedCount
   const records = generateUsageRecords(instruction.appliedCount)
   
@@ -85,16 +80,6 @@ export default function InstructionUsagePanel({ instruction, onClose }: Instruct
   const lastUsedDate = records.length > 0 && records[0].applied 
     ? records[0].date 
     : records.find(r => r.applied)?.date || 'Never'
-
-  const getPeriodLabel = (period: TimePeriod): string => {
-    switch (period) {
-      case '30': return 'Last 30 days'
-      case '60': return 'Last 60 days'
-      case '90': return 'Last 90 days'
-      case 'all': return 'All time'
-      default: return 'Last 30 days'
-    }
-  }
 
   return (
     <div className={styles.overlay} onClick={onClose}>
