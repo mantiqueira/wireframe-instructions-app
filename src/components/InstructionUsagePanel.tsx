@@ -75,11 +75,6 @@ export default function InstructionUsagePanel({ instruction, onClose }: Instruct
   
   // Generate records based on appliedCount
   const records = generateUsageRecords(instruction.appliedCount)
-  
-  // Calculate last used date
-  const lastUsedDate = records.length > 0 && records[0].applied 
-    ? records[0].date 
-    : records.find(r => r.applied)?.date || 'Never'
 
   return (
     <div className={styles.overlay} onClick={onClose}>
@@ -90,24 +85,9 @@ export default function InstructionUsagePanel({ instruction, onClose }: Instruct
         </div>
 
         <div className={styles.content}>
-          {/* Summary Section */}
-          <div className={styles.summarySection}>
-            <h3 className={styles.sectionTitle}>Summary</h3>
-            <div className={styles.totalizeSection}>
-              <div className={styles.totalizeCard}>
-                <div className={styles.totalizeNumber}>{instruction.appliedCount}</div>
-                <div className={styles.totalizeLabel}>Applied {instruction.appliedCount === 1 ? 'time' : 'times'}</div>
-              </div>
-              <div className={styles.totalizeCard}>
-                <div className={styles.totalizeNumber}>{lastUsedDate}</div>
-                <div className={styles.totalizeLabel}>Last used date</div>
-              </div>
-            </div>
-          </div>
-
-          {/* History + Debug Section */}
+          {/* History Section */}
           <div className={styles.historySection}>
-            <h3 className={styles.sectionTitle}>History + Debug</h3>
+            <h3 className={styles.sectionTitle}>History</h3>
 
           <div className={styles.periodSelector}>
             <button

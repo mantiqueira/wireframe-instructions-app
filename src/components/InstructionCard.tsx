@@ -68,8 +68,8 @@ export default function InstructionCard({
 
   const handleCardClick = (e: React.MouseEvent) => {
     const target = e.target as HTMLElement
-    // Don't navigate if clicking on buttons or the menu
-    if (target.tagName === 'BUTTON' || menuRef.current?.contains(target)) {
+    // Don't navigate if clicking on buttons, the menu, or the applied badge
+    if (target.tagName === 'BUTTON' || menuRef.current?.contains(target) || badgeRef.current?.contains(target)) {
       return
     }
     // Navigate when clicking on the card content
@@ -92,9 +92,14 @@ export default function InstructionCard({
           </span>
           <span 
             ref={badgeRef}
-            className={styles.appliedBadge}
+            className={`${styles.appliedBadge} ${styles.appliedBadgeClickable}`}
             onMouseEnter={() => setTooltipVisible(true)}
             onMouseLeave={() => setTooltipVisible(false)}
+            onClick={(e) => {
+              e.stopPropagation()
+              handleSeeUsage()
+            }}
+            title="Click to see usage details"
           >
             Applied {instruction.appliedCount} {instruction.appliedCount === 1 ? 'time' : 'times'}
             {tooltipVisible && instruction.appliedCount > 0 && (
@@ -102,7 +107,7 @@ export default function InstructionCard({
                 Applied in {instruction.appliedCount} {instruction.where.toLowerCase()}
                 {instruction.appliedCount > 0 && (
                   <div className={styles.tooltipDetail}>
-                    Click "See usage" to view details and locations
+                    Click to view details and locations
                   </div>
                 )}
               </div>

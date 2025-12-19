@@ -7,6 +7,7 @@ interface PricingPresetsModalProps {
   materialMarkup: string
   laborMaterialMarkup: string
   otherMarkup: string
+  profitMarginEnabled?: boolean
   onSave: (data: {
     markupOption: string
     laborMarkup: string
@@ -23,6 +24,7 @@ export default function PricingPresetsModal({
   materialMarkup: initialMaterialMarkup,
   laborMaterialMarkup: initialLaborMaterialMarkup,
   otherMarkup: initialOtherMarkup,
+  profitMarginEnabled = false,
   onSave,
   onClose
 }: PricingPresetsModalProps) {
@@ -59,6 +61,19 @@ export default function PricingPresetsModal({
         </div>
 
         <div className={styles.content}>
+          {profitMarginEnabled && (
+            <div style={{ 
+              padding: '12px', 
+              background: '#fff3e0', 
+              borderLeft: '4px solid #f79009',
+              borderRadius: '4px',
+              marginBottom: '16px'
+            }}>
+              <p style={{ margin: 0, fontSize: '13px', color: '#666' }}>
+                <strong>Note:</strong> Profit margins are currently enabled. Using markups will disable profit margins. You can only use one pricing method at a time.
+              </p>
+            </div>
+          )}
           <div className={styles.formField}>
             <label className={styles.label}>Markups</label>
             <select
@@ -71,9 +86,14 @@ export default function PricingPresetsModal({
             </select>
             <p className={styles.explanation}>
               {markupOption === 'Use defaults every time' 
-                ? 'Set the default markup values that will be used for all projects.'
+                ? 'Set the default markup values that will be used for all projects. Using markups will disable profit margins.'
                 : 'The last used markup values will be automatically applied to new projects.'
               }
+              {markupOption === 'Use defaults every time' && (
+                <span style={{ display: 'block', marginTop: '4px', fontSize: '12px', color: '#666' }}>
+                  <strong>You can only use markups OR profit margins, never both.</strong>
+                </span>
+              )}
             </p>
           </div>
 

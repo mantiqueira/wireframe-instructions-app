@@ -7,20 +7,35 @@ interface WarningBannerProps {
   type: 'conflicting' | 'invalid'
   instruction?: Instruction
   allInstructions?: Instruction[]
+  onSuggestFix?: (instructionId: string) => void
 }
 
 export default function WarningBanner({ 
   type, 
   instruction, 
-  allInstructions = []
+  allInstructions = [],
+  onSuggestFix
 }: WarningBannerProps) {
   const [isExpanded, setIsExpanded] = useState(true)
+  const [isSuggesting, setIsSuggesting] = useState(false)
   const navigate = useNavigate()
 
   const getTitle = () => {
     return type === 'conflicting'
       ? 'This instruction is conflicting'
       : 'This instruction is invalid'
+  }
+
+  const handleSuggestFix = async () => {
+    if (!instruction || !onSuggestFix) return
+    
+    setIsSuggesting(true)
+    // Simulate AI analysis - in real app, this would call an API
+    await new Promise(resolve => setTimeout(resolve, 1500))
+    
+    // Call the suggestion handler
+    onSuggestFix(instruction.id)
+    setIsSuggesting(false)
   }
 
   const getConflictingInstructions = () => {
@@ -62,16 +77,24 @@ export default function WarningBanner({
             )}
           </div>
           <p style={{ marginBottom: '16px' }}>{conflictReason}</p>
+          {onSuggestFix && (
+            <div className={styles.actionButtons}>
+              <button
+                className={styles.actionButton}
+                onClick={handleSuggestFix}
+                disabled={isSuggesting}
+              >
+                {isSuggesting ? 'Analyzing...' : '✨ Suggest change'}
+              </button>
+            </div>
+          )}
         </div>
       )
     } else if (type === 'invalid' && instruction?.invalidReason) {
       return (
         <div>
-          <p style={{ marginBottom: '12px', color: '#666' }}>
+          <p style={{ marginBottom: '0', color: '#666' }}>
             This instruction can't be applied: {instruction.invalidReason}
-          </p>
-          <p style={{ marginBottom: '0', fontSize: '13px', color: '#666' }}>
-            Don't worry - we'll let you know if there's an issue when creating documents. Just update the instruction to fix this and you'll be all set.
           </p>
         </div>
       )

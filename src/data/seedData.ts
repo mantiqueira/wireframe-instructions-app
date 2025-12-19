@@ -69,7 +69,7 @@ export const seedInstructions: Instruction[] = [
     body: 'Always include the company logo image in the footer of every proposal. The logo should be centered and sized at 150px width. Use the file located at /assets/company-logo.png',
     status: 'invalid',
     appliedCount: 0,
-    invalidReason: 'Cannot insert image files or access file system paths. The system does not support image insertion or file system operations. Proposals can only include text-based content.'
+    invalidReason: 'Images can be attached manually using the interface, but the logo can only be placed in one specific location. It is not possible to place the logo in the footer.'
   }
 ]
 

@@ -1,0 +1,203 @@
+import { useState, useEffect } from 'react'
+import styles from './SettingsModal.module.css'
+
+type PricingMode = 'markup' | 'margin'
+
+interface PricingModalProps {
+  mode: PricingMode
+  // Markup values
+  markupOption: string
+  laborMarkup: string
+  materialMarkup: string
+  laborMaterialMarkup: string
+  otherMarkup: string
+  // Margin values
+  minProfitMargin: string
+  onSave: (data: {
+    mode: PricingMode
+    markupOption: string
+    laborMarkup: string
+    materialMarkup: string
+    laborMaterialMarkup: string
+    otherMarkup: string
+    minProfitMargin: string
+  }) => void
+  onClose: () => void
+}
+
+export default function PricingModal({
+  mode: initialMode,
+  markupOption: initialMarkupOption,
+  laborMarkup: initialLaborMarkup,
+  materialMarkup: initialMaterialMarkup,
+  laborMaterialMarkup: initialLaborMaterialMarkup,
+  otherMarkup: initialOtherMarkup,
+  minProfitMargin: initialMinProfitMargin,
+  onSave,
+  onClose
+}: PricingModalProps) {
+  const [mode, setMode] = useState<PricingMode>(initialMode)
+  const [markupOption, setMarkupOption] = useState(initialMarkupOption)
+  const [laborMarkup, setLaborMarkup] = useState(initialLaborMarkup)
+  const [materialMarkup, setMaterialMarkup] = useState(initialMaterialMarkup)
+  const [laborMaterialMarkup, setLaborMaterialMarkup] = useState(initialLaborMaterialMarkup)
+  const [otherMarkup, setOtherMarkup] = useState(initialOtherMarkup)
+  const [minProfitMargin, setMinProfitMargin] = useState(initialMinProfitMargin.replace('%', ''))
+
+  useEffect(() => {
+    setMode(initialMode)
+    setMarkupOption(initialMarkupOption)
+    setLaborMarkup(initialLaborMarkup)
+    setMaterialMarkup(initialMaterialMarkup)
+    setLaborMaterialMarkup(initialLaborMaterialMarkup)
+    setOtherMarkup(initialOtherMarkup)
+    setMinProfitMargin(initialMinProfitMargin.replace('%', ''))
+  }, [initialMode, initialMarkupOption, initialLaborMarkup, initialMaterialMarkup, initialLaborMaterialMarkup, initialOtherMarkup, initialMinProfitMargin])
+
+  const handleSave = () => {
+    onSave({
+      mode,
+      markupOption,
+      laborMarkup,
+      materialMarkup,
+      laborMaterialMarkup,
+      otherMarkup,
+      minProfitMargin: `${minProfitMargin}%`
+    })
+  }
+
+  return (
+    <div className={styles.overlay} onClick={onClose}>
+      <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
+        <div className={styles.header}>
+          <h2 className={styles.title}>Pricing</h2>
+          <button className={styles.closeButton} onClick={onClose}>×</button>
+        </div>
+
+        <div className={styles.content}>
+          {/* Mode Toggle - Segment Control */}
+          <div className={styles.formField}>
+            <label className={styles.label}>Pricing mode</label>
+            <div className={styles.segmentControl}>
+              <button
+                type="button"
+                className={`${styles.segmentButton} ${mode === 'markup' ? styles.segmentButtonActive : ''}`}
+                onClick={() => setMode('markup')}
+              >
+                Markups
+              </button>
+              <button
+                type="button"
+                className={`${styles.segmentButton} ${mode === 'margin' ? styles.segmentButtonActive : ''}`}
+                onClick={() => setMode('margin')}
+              >
+                Profit margins
+              </button>
+            </div>
+          </div>
+
+          {/* Markup Section */}
+          {mode === 'markup' && (
+            <>
+              <div className={styles.formField}>
+                <label className={styles.label}>Markup option</label>
+                <select
+                  className={styles.select}
+                  value={markupOption}
+                  onChange={(e) => setMarkupOption(e.target.value)}
+                >
+                  <option>Use defaults every time</option>
+                  <option>Use the last used values</option>
+                </select>
+                <p className={styles.explanation}>
+                  {markupOption === 'Use defaults every time' 
+                    ? 'Set the default markup values that will be used for all projects.'
+                    : 'The last used markup values will be automatically applied to new projects.'
+                  }
+                </p>
+              </div>
+
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginTop: '16px' }}>
+                <div className={styles.formField}>
+                  <label className={styles.label}>Labor markup</label>
+                  <input
+                    type="text"
+                    className={styles.input}
+                    value={laborMarkup}
+                    onChange={(e) => setLaborMarkup(e.target.value)}
+                    disabled={markupOption === 'Use the last used values'}
+                  />
+                </div>
+
+                <div className={styles.formField}>
+                  <label className={styles.label}>Material markup</label>
+                  <input
+                    type="text"
+                    className={styles.input}
+                    value={materialMarkup}
+                    onChange={(e) => setMaterialMarkup(e.target.value)}
+                    disabled={markupOption === 'Use the last used values'}
+                  />
+                </div>
+
+                <div className={styles.formField}>
+                  <label className={styles.label}>Labor + Material markup</label>
+                  <input
+                    type="text"
+                    className={styles.input}
+                    value={laborMaterialMarkup}
+                    onChange={(e) => setLaborMaterialMarkup(e.target.value)}
+                    disabled={markupOption === 'Use the last used values'}
+                  />
+                </div>
+
+                <div className={styles.formField}>
+                  <label className={styles.label}>Other markup</label>
+                  <input
+                    type="text"
+                    className={styles.input}
+                    value={otherMarkup}
+                    onChange={(e) => setOtherMarkup(e.target.value)}
+                    disabled={markupOption === 'Use the last used values'}
+                  />
+                </div>
+              </div>
+            </>
+          )}
+
+          {/* Margin Section */}
+          {mode === 'margin' && (
+            <div className={styles.formField}>
+              <label className={styles.label}>Minimum profit margin</label>
+              <div className={styles.inputWithSuffix}>
+                <input
+                  type="number"
+                  className={styles.input}
+                  value={minProfitMargin}
+                  onChange={(e) => setMinProfitMargin(e.target.value)}
+                  min="0"
+                  max="100"
+                  step="1"
+                />
+                <span className={styles.suffix}>%</span>
+              </div>
+              <p className={styles.explanation}>
+                Set the minimum profit margin percentage for all projects. This ensures projects meet your minimum profitability requirements.
+              </p>
+            </div>
+          )}
+        </div>
+
+        <div className={styles.footer}>
+          <button className={styles.secondaryButton} onClick={onClose}>
+            Cancel
+          </button>
+          <button className={styles.primaryButton} onClick={handleSave}>
+            Save
+          </button>
+        </div>
+      </div>
+    </div>
+  )
+}
+

@@ -1,10 +1,9 @@
 import { useState } from 'react'
 import { Payment } from '../components/PaymentTermsModal'
 import GeneralSettingsModal from '../components/GeneralSettingsModal'
-import PricingPresetsModal from '../components/PricingPresetsModal'
+import PricingModal from '../components/PricingModal'
 import PaymentPresetsModal from '../components/PaymentPresetsModal'
 import AIPersonalityModal from '../components/AIPersonalityModal'
-import ProfitMarginModal from '../components/ProfitMarginModal'
 import PaymentTermsModal from '../components/PaymentTermsModal'
 import TaxRateModal from '../components/TaxRateModal'
 import styles from './Settings.module.css'
@@ -18,14 +17,13 @@ export default function Settings() {
   const [address, setAddress] = useState('Street of streets 1234')
 
   // Pricing presets
+  const [pricingMode, setPricingMode] = useState<'markup' | 'margin'>('margin')
   const [markupOption, setMarkupOption] = useState('Use defaults every time')
   const [laborMarkup, setLaborMarkup] = useState('30%')
   const [materialMarkup, setMaterialMarkup] = useState('15%')
   const [laborMaterialMarkup, setLaborMaterialMarkup] = useState('20%')
   const [otherMarkup, setOtherMarkup] = useState('5%')
-  const [profitMarginEnabled, setProfitMarginEnabled] = useState(true)
   const [minProfitMargin, setMinProfitMargin] = useState('20%')
-  const [maxProfitMargin, setMaxProfitMargin] = useState('80%')
 
   // Payment presets
   const [paymentSchedule, setPaymentSchedule] = useState<Payment[]>([
@@ -49,7 +47,6 @@ export default function Settings() {
   // Modal states
   const [showGeneralModal, setShowGeneralModal] = useState(false)
   const [showPricingModal, setShowPricingModal] = useState(false)
-  const [showProfitMarginModal, setShowProfitMarginModal] = useState(false)
   const [showPaymentTermsModal, setShowPaymentTermsModal] = useState(false)
   const [showTaxRateModal, setShowTaxRateModal] = useState(false)
   const [showPaymentModal, setShowPaymentModal] = useState(false)
@@ -84,38 +81,20 @@ export default function Settings() {
         <div className={styles.settingsCard}>
           <div className={styles.settingRow}>
             <div className={styles.settingInfo}>
-              <h3 className={styles.settingTitle}>Markups</h3>
+              <h3 className={styles.settingTitle}>
+                {pricingMode === 'markup' ? 'Markup' : 'Profit margin limit'}
+              </h3>
               <p className={styles.settingDescription}>
-                Configure labor, material, and other markup percentages.
-                <span style={{ display: 'block', marginTop: '4px', fontSize: '12px', color: '#666' }}>
-                  Note: Use either markups OR profit margins, never both. Markups add a percentage to costs, while profit margins set target percentages of total price.
-                </span>
+                {pricingMode === 'markup' 
+                  ? 'Configure labor, material, and other markup percentages. Markups add a percentage to costs.'
+                  : 'Set minimum profit margin percentage. Profit margins set target percentages of total price.'
+                }
               </p>
             </div>
             <button className={styles.customizeButton} onClick={() => setShowPricingModal(true)}>
-              Customize
-            </button>
-          </div>
-
-          <div className={styles.divider}></div>
-
-          <div className={styles.settingRow}>
-            <div className={styles.settingInfo}>
-              <h3 className={styles.settingTitle}>Profit margin limits</h3>
-              <p className={styles.settingDescription}>
-                {profitMarginEnabled 
-                  ? `When enabled, projects will be constrained by the minimum profit margin set below. Maximum margin is not used as it doesn't make practical sense - only minimum margin is enforced.`
-                  : 'Profit margin constraints are disabled. Projects will not be limited by profit margin percentages.'
-                }
-                <span style={{ display: 'block', marginTop: '4px', fontSize: '12px', color: '#666' }}>
-                  Note: Use either markups OR profit margins, never both. If profit margins are enabled, markups will be ignored.
-                </span>
-              </p>
-            </div>
-            <button className={styles.customizeButton} onClick={() => setShowProfitMarginModal(true)}>
-              {profitMarginEnabled 
-                ? `Min: ${minProfitMargin}`
-                : 'Disabled'
+              {pricingMode === 'markup' 
+                ? `${laborMarkup} / ${materialMarkup} / ${laborMaterialMarkup} / ${otherMarkup}`
+                : `Min: ${minProfitMargin}`
               }
             </button>
           </div>
@@ -213,36 +192,25 @@ export default function Settings() {
       )}
 
       {showPricingModal && (
-        <PricingPresetsModal
+        <PricingModal
+          mode={pricingMode}
           markupOption={markupOption}
           laborMarkup={laborMarkup}
           materialMarkup={materialMarkup}
           laborMaterialMarkup={laborMaterialMarkup}
           otherMarkup={otherMarkup}
+          minProfitMargin={minProfitMargin}
           onSave={(data) => {
+            setPricingMode(data.mode)
             setMarkupOption(data.markupOption)
             setLaborMarkup(data.laborMarkup)
             setMaterialMarkup(data.materialMarkup)
             setLaborMaterialMarkup(data.laborMaterialMarkup)
             setOtherMarkup(data.otherMarkup)
+            setMinProfitMargin(data.minProfitMargin)
             setShowPricingModal(false)
           }}
           onClose={() => setShowPricingModal(false)}
-        />
-      )}
-
-      {showProfitMarginModal && (
-        <ProfitMarginModal
-          enabled={profitMarginEnabled}
-          minValue={minProfitMargin}
-          maxValue={maxProfitMargin}
-          onSave={(data) => {
-            setProfitMarginEnabled(data.enabled)
-            setMinProfitMargin(data.minValue)
-            setMaxProfitMargin(data.maxValue)
-            setShowProfitMarginModal(false)
-          }}
-          onClose={() => setShowProfitMarginModal(false)}
         />
       )}
 

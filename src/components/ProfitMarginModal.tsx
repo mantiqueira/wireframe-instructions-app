@@ -5,6 +5,7 @@ interface ProfitMarginModalProps {
   enabled: boolean
   minValue: string
   maxValue: string
+  markupEnabled?: boolean
   onSave: (data: { enabled: boolean; minValue: string; maxValue: string }) => void
   onClose: () => void
 }
@@ -13,6 +14,7 @@ export default function ProfitMarginModal({
   enabled: initialEnabled,
   minValue: initialMinValue,
   maxValue: initialMaxValue,
+  markupEnabled = false,
   onSave,
   onClose
 }: ProfitMarginModalProps) {
@@ -43,6 +45,19 @@ export default function ProfitMarginModal({
         </div>
 
         <div className={styles.content}>
+          {markupEnabled && (
+            <div style={{ 
+              padding: '12px', 
+              background: '#fff3e0', 
+              borderLeft: '4px solid #f79009',
+              borderRadius: '4px',
+              marginBottom: '16px'
+            }}>
+              <p style={{ margin: 0, fontSize: '13px', color: '#666' }}>
+                <strong>Note:</strong> Markups are currently enabled. Enabling profit margins will disable markups. You can only use one pricing method at a time.
+              </p>
+            </div>
+          )}
           <div className={styles.formField}>
             <label className={styles.toggleLabel}>
               <input
@@ -56,7 +71,7 @@ export default function ProfitMarginModal({
             </label>
             <p className={styles.explanation}>
               When enabled, projects will be constrained by the minimum profit margin set below. 
-              <strong> Use either profit margins OR markups, never both.</strong> If profit margins are enabled, markups will be ignored.
+              <strong> Use either profit margins OR markups, never both.</strong> Enabling profit margins will disable markups.
             </p>
           </div>
 

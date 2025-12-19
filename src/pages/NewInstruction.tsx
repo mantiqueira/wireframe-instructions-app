@@ -212,6 +212,28 @@ export default function NewInstruction() {
                   type={currentInstructionStatus} 
                   instruction={instructions.find(inst => inst.id === instructionId) || undefined}
                   allInstructions={instructions}
+                  onSuggestFix={currentInstructionStatus === 'conflicting' ? async (id) => {
+                    // Simulate AI analysis - in real app this would call an API
+                    const instruction = instructions.find(inst => inst.id === id)
+                    if (instruction) {
+                      // Analyze conflict and suggest a fix
+                      // For the grouping conflict example, suggest combining or clarifying
+                      let fixedBody = instruction.body
+                      
+                      // If it's about grouping, suggest a combined approach
+                      if (fixedBody.toLowerCase().includes('trade') && fixedBody.toLowerCase().includes('group')) {
+                        fixedBody = fixedBody.replace(
+                          /Always organize estimate line items by trade category: electrical, plumbing, HVAC, carpentry, etc\. Each trade should be a separate section with subtotals\./gi,
+                          'Organize estimate line items by trade category (electrical, plumbing, HVAC, carpentry, etc.) within each phase. Use CSI MasterFormat cost codes for each line item, but group by trade within phases.'
+                        )
+                      }
+                      
+                      setBody(fixedBody)
+                      addToHistory(fixedBody)
+                      setShowToast(true)
+                      setTimeout(() => setShowToast(false), 3000)
+                    }
+                  } : undefined}
                 />
               </div>
             )}
