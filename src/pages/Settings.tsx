@@ -85,7 +85,12 @@ export default function Settings() {
           <div className={styles.settingRow}>
             <div className={styles.settingInfo}>
               <h3 className={styles.settingTitle}>Markups</h3>
-              <p className={styles.settingDescription}>Configure labor, material, and other markup percentages</p>
+              <p className={styles.settingDescription}>
+                Configure labor, material, and other markup percentages.
+                <span style={{ display: 'block', marginTop: '4px', fontSize: '12px', color: '#666' }}>
+                  Note: Use either markups OR profit margins, never both. Markups add a percentage to costs, while profit margins set target percentages of total price.
+                </span>
+              </p>
             </div>
             <button className={styles.customizeButton} onClick={() => setShowPricingModal(true)}>
               Customize
@@ -99,14 +104,17 @@ export default function Settings() {
               <h3 className={styles.settingTitle}>Profit margin limits</h3>
               <p className={styles.settingDescription}>
                 {profitMarginEnabled 
-                  ? `When enabled, projects will be constrained by the minimum and maximum profit margins set below.`
+                  ? `When enabled, projects will be constrained by the minimum profit margin set below. Maximum margin is not used as it doesn't make practical sense - only minimum margin is enforced.`
                   : 'Profit margin constraints are disabled. Projects will not be limited by profit margin percentages.'
                 }
+                <span style={{ display: 'block', marginTop: '4px', fontSize: '12px', color: '#666' }}>
+                  Note: Use either markups OR profit margins, never both. If profit margins are enabled, markups will be ignored.
+                </span>
               </p>
             </div>
             <button className={styles.customizeButton} onClick={() => setShowProfitMarginModal(true)}>
               {profitMarginEnabled 
-                ? `${minProfitMargin.replace('%', '')}%–${maxProfitMargin.replace('%', '')}%`
+                ? `Min: ${minProfitMargin}`
                 : 'Disabled'
               }
             </button>

@@ -208,7 +208,11 @@ export default function NewInstruction() {
             <label className={styles.label}>{getInstructionLabel()}</label>
             {(currentInstructionStatus === 'conflicting' || currentInstructionStatus === 'invalid') && (
               <div className={styles.warningBannerContainer}>
-                <WarningBanner type={currentInstructionStatus} />
+                <WarningBanner 
+                  type={currentInstructionStatus} 
+                  instruction={instructions.find(inst => inst.id === instructionId) || undefined}
+                  allInstructions={instructions}
+                />
               </div>
             )}
             <div className={styles.instructionCard}>

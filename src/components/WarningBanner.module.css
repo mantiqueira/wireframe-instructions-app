@@ -56,3 +56,58 @@
   padding-left: 24px;
 }
 
+.conflictLink {
+  display: block;
+  color: #f79009;
+  text-decoration: none;
+  margin-bottom: 4px;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.conflictLink:hover {
+  color: #e65100;
+  text-decoration: underline;
+}
+
+.actionButtons {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.actionButton {
+  padding: 10px 16px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: white;
+  color: #000;
+  font-size: 14px;
+  font-family: inherit;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.2s;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.actionButton:hover:not(:disabled) {
+  background: #fafafa;
+  border-color: #999;
+}
+
+.actionButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.buttonHint {
+  font-size: 11px;
+  color: #666;
+  margin-top: 4px;
+  font-weight: normal;
+}
+

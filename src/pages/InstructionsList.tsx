@@ -165,18 +165,18 @@ export default function InstructionsList() {
                         Define clear rules for how AI creates estimates and proposals. Set your communication style, pricing guidelines, and document structure to ensure every output matches your brand and standards.
                       </p>
                       <div className={styles.bannerLinks}>
-                        <a href="#" className={styles.bannerLink}>
+                        <button className={styles.bannerLink}>
                           <span className={styles.bannerLinkIcon}>📖</span>
                           Get started
-                        </a>
-                        <a href="#" className={styles.bannerLink}>
+                        </button>
+                        <button className={styles.bannerLink}>
                           <span className={styles.bannerLinkIcon}>📖</span>
                           Best practices
-                        </a>
-                        <a href="#" className={styles.bannerLink}>
+                        </button>
+                        <button className={styles.bannerLink}>
                           <span className={styles.bannerLinkIcon}>📖</span>
                           AI's basics
-                        </a>
+                        </button>
                       </div>
                     </div>
                     <div className={styles.bannerRight}>

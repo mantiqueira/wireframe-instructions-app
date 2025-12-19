@@ -1,12 +1,21 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { Instruction } from '../types'
 import styles from './WarningBanner.module.css'
 
 interface WarningBannerProps {
   type: 'conflicting' | 'invalid'
+  instruction?: Instruction
+  allInstructions?: Instruction[]
 }
 
-export default function WarningBanner({ type }: WarningBannerProps) {
+export default function WarningBanner({ 
+  type, 
+  instruction, 
+  allInstructions = []
+}: WarningBannerProps) {
   const [isExpanded, setIsExpanded] = useState(true)
+  const navigate = useNavigate()
 
   const getTitle = () => {
     return type === 'conflicting'
@@ -14,10 +23,75 @@ export default function WarningBanner({ type }: WarningBannerProps) {
       : 'This instruction is invalid'
   }
 
+  const getConflictingInstructions = () => {
+    if (!instruction?.conflictDetails?.conflictingWithIds || !allInstructions.length) {
+      return []
+    }
+    return allInstructions.filter(inst => 
+      instruction.conflictDetails?.conflictingWithIds?.includes(inst.id)
+    )
+  }
+
   const getMessage = () => {
-    return type === 'conflicting'
-      ? 'This instruction conflicts with other active instructions. Review your instructions and modify or disable conflicting ones to ensure consistent behavior. Make sure instructions don\'t contradict each other in their requirements or outcomes.'
-      : 'This instruction cannot be executed as written. It references elements that don\'t exist or uses an invalid format. Please rewrite the instruction to use valid references and follow the required format for instructions.'
+    if (type === 'conflicting' && instruction?.conflictDetails) {
+      const { conflictingWith, conflictReason } = instruction.conflictDetails
+      const conflictingInstructions = getConflictingInstructions()
+      
+      return (
+        <div>
+          <p style={{ marginBottom: '12px', fontWeight: 'bold' }}>
+            {instruction.title} conflicts with {conflictingWith.length === 1 ? 'instruction' : 'instructions'}:
+          </p>
+          <div style={{ marginBottom: '12px' }}>
+            {conflictingInstructions.length > 0 ? (
+              conflictingInstructions.map((conflictingInst) => (
+                <a
+                  key={conflictingInst.id}
+                  href={`/settings/instructions/new?id=${conflictingInst.id}`}
+                  onClick={(e) => {
+                    e.preventDefault()
+                    navigate(`/settings/instructions/new?id=${conflictingInst.id}`)
+                  }}
+                  className={styles.conflictLink}
+                >
+                  → {conflictingInst.title}
+                </a>
+              ))
+            ) : (
+              <span>{conflictingWith.join(', ')}</span>
+            )}
+          </div>
+          <p style={{ marginBottom: '16px' }}>{conflictReason}</p>
+        </div>
+      )
+    } else if (type === 'invalid' && instruction?.invalidReason) {
+      return (
+        <div>
+          <p style={{ marginBottom: '12px', color: '#666' }}>
+            This instruction can't be applied: {instruction.invalidReason}
+          </p>
+          <p style={{ marginBottom: '0', fontSize: '13px', color: '#666' }}>
+            Don't worry - we'll let you know if there's an issue when creating documents. Just update the instruction to fix this and you'll be all set.
+          </p>
+        </div>
+      )
+    }
+    
+    // Fallback messages
+    if (type === 'conflicting') {
+      return 'This instruction conflicts with other active instructions. Review your instructions and modify or disable conflicting ones to ensure consistent behavior.'
+    } else {
+      return (
+        <div>
+          <p style={{ marginBottom: '12px', color: '#666' }}>
+            This instruction can't be executed as written.
+          </p>
+          <p style={{ marginBottom: '0', fontSize: '13px', color: '#666' }}>
+            Update the instruction to use valid references and follow the required format.
+          </p>
+        </div>
+      )
+    }
   }
 
   return (

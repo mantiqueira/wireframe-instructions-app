@@ -9,6 +9,8 @@ interface UsageRecord {
   hour: string
   who: string
   link: string
+  applied: boolean
+  skippedReason?: string
 }
 
 interface InstructionUsagePanelProps {
@@ -28,10 +30,16 @@ const generateUsageRecords = (count: number): UsageRecord[] => {
   ]
   const streets = ['Maple St', 'Oak Ave', 'Pine Rd', 'Elm St', 'Cedar Ln', 'Birch Dr', 'Willow Way', 'Spruce Blvd']
   const users = ['John Doe', 'Jane Smith', 'Mike Johnson', 'Sarah Williams', 'David Brown']
+  const skipReasons = [
+    'Conflicts with instruction: Material markup tiers',
+    'Missing required data fields',
+    'Invalid format detected',
+    'Conflicts with instruction: Labor rate calculations'
+  ]
   
   const now = new Date()
   
-  for (let i = 0; i < count; i++) {
+  for (let i = 0; i < count + 2; i++) {
     const daysAgo = Math.floor(i / 2)
     const date = new Date(now)
     date.setDate(date.getDate() - daysAgo)
@@ -39,13 +47,19 @@ const generateUsageRecords = (count: number): UsageRecord[] => {
     const hours = ['9:00 AM', '10:15 AM', '11:30 AM', '2:00 PM', '3:45 PM', '4:30 PM', '5:15 PM']
     const randomHour = hours[Math.floor(Math.random() * hours.length)]
     
+    // Mix of applied and skipped
+    const applied = i < count
+    const skippedReason = !applied ? skipReasons[i % skipReasons.length] : undefined
+    
     records.push({
       id: `${i + 1}`,
       estimateName: `${names[i % names.length]} - ${streets[i % streets.length]}`,
       date: date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
       hour: randomHour,
       who: users[i % users.length],
-      link: `/estimates/${123 + i}`
+      link: `/estimates/${123 + i}`,
+      applied,
+      skippedReason
     })
   }
   
@@ -66,6 +80,11 @@ export default function InstructionUsagePanel({ instruction, onClose }: Instruct
   
   // Generate records based on appliedCount
   const records = generateUsageRecords(instruction.appliedCount)
+  
+  // Calculate last used date
+  const lastUsedDate = records.length > 0 && records[0].applied 
+    ? records[0].date 
+    : records.find(r => r.applied)?.date || 'Never'
 
   const getPeriodLabel = (period: TimePeriod): string => {
     switch (period) {
@@ -86,20 +105,24 @@ export default function InstructionUsagePanel({ instruction, onClose }: Instruct
         </div>
 
         <div className={styles.content}>
-          <div className={styles.totalizeSection}>
-            <div className={styles.totalizeCard}>
-              <div className={styles.totalizeNumber}>{percentage}%</div>
-              <div className={styles.totalizeLabel}>
-                {instruction.where === 'Estimates' ? 'estimates' : instruction.where === 'Proposals' ? 'proposals' : 'documents'} using this instruction
+          {/* Summary Section */}
+          <div className={styles.summarySection}>
+            <h3 className={styles.sectionTitle}>Summary</h3>
+            <div className={styles.totalizeSection}>
+              <div className={styles.totalizeCard}>
+                <div className={styles.totalizeNumber}>{instruction.appliedCount}</div>
+                <div className={styles.totalizeLabel}>Applied {instruction.appliedCount === 1 ? 'time' : 'times'}</div>
               </div>
-            </div>
-            <div className={styles.totalizeCard}>
-              <div className={styles.totalizeNumber}>{instruction.appliedCount}</div>
-              <div className={styles.totalizeLabel}>
-                times used in {getPeriodLabel(timePeriod).toLowerCase()}
+              <div className={styles.totalizeCard}>
+                <div className={styles.totalizeNumber}>{lastUsedDate}</div>
+                <div className={styles.totalizeLabel}>Last used date</div>
               </div>
             </div>
           </div>
+
+          {/* History + Debug Section */}
+          <div className={styles.historySection}>
+            <h3 className={styles.sectionTitle}>History + Debug</h3>
 
           <div className={styles.periodSelector}>
             <button
@@ -128,15 +151,13 @@ export default function InstructionUsagePanel({ instruction, onClose }: Instruct
             </button>
           </div>
 
-          <div className={styles.tableSection}>
-            <h3 className={styles.tableTitle}>Usage history</h3>
             <table className={styles.table}>
               <thead>
                 <tr>
-                  <th>Estimate name</th>
+                  <th>Last estimates</th>
                   <th>Date</th>
-                  <th>Hour</th>
-                  <th>Who</th>
+                  <th>Applied or skipped</th>
+                  <th>Why</th>
                   <th></th>
                 </tr>
               </thead>
@@ -146,8 +167,18 @@ export default function InstructionUsagePanel({ instruction, onClose }: Instruct
                     <tr key={record.id}>
                       <td>{record.estimateName}</td>
                       <td>{record.date}</td>
-                      <td>{record.hour}</td>
-                      <td>{record.who}</td>
+                      <td>
+                        <span className={record.applied ? styles.appliedStatus : styles.skippedStatus}>
+                          {record.applied ? '✓ Applied' : '✗ Skipped'}
+                        </span>
+                      </td>
+                      <td>
+                        {record.applied ? (
+                          <span style={{ color: '#666' }}>Successfully applied</span>
+                        ) : (
+                          <span style={{ color: '#c62828' }}>{record.skippedReason}</span>
+                        )}
+                      </td>
                       <td>
                         <a href={record.link} className={styles.linkButton} target="_blank" rel="noopener noreferrer">
                           ↗

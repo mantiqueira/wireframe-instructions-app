@@ -17,8 +17,10 @@ export default function InstructionCard({
   onSeeUsage
 }: InstructionCardProps) {
   const [menuOpen, setMenuOpen] = useState(false)
+  const [tooltipVisible, setTooltipVisible] = useState(false)
   const navigate = useNavigate()
   const menuRef = useRef<HTMLDivElement>(null)
+  const badgeRef = useRef<HTMLSpanElement>(null)
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -88,7 +90,24 @@ export default function InstructionCard({
           <span className={`${styles.statusBadge} ${styles[`statusBadge${instruction.status.charAt(0).toUpperCase() + instruction.status.slice(1)}`]}`}>
             {getStatusLabel()}
           </span>
-          <span className={styles.appliedBadge}>Applied {instruction.appliedCount}</span>
+          <span 
+            ref={badgeRef}
+            className={styles.appliedBadge}
+            onMouseEnter={() => setTooltipVisible(true)}
+            onMouseLeave={() => setTooltipVisible(false)}
+          >
+            Applied {instruction.appliedCount} {instruction.appliedCount === 1 ? 'time' : 'times'}
+            {tooltipVisible && instruction.appliedCount > 0 && (
+              <div className={styles.tooltip}>
+                Applied in {instruction.appliedCount} {instruction.where.toLowerCase()}
+                {instruction.appliedCount > 0 && (
+                  <div className={styles.tooltipDetail}>
+                    Click "See usage" to view details and locations
+                  </div>
+                )}
+              </div>
+            )}
+          </span>
         </div>
         <div className={styles.menuContainer} ref={menuRef}>
           <button className={styles.menuButton} onClick={handleMenuClick}>

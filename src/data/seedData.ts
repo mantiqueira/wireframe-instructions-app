@@ -19,11 +19,16 @@ export const seedInstructions: Instruction[] = [
   },
   {
     id: '3',
-    title: 'Labor rate calculations',
+    title: 'Group line items by trade',
     where: 'Estimates',
-    body: 'Use regional labor rates from the latest BLS data. Include fringe benefits at 35% of base rate.',
+    body: 'Always organize estimate line items by trade category: electrical, plumbing, HVAC, carpentry, etc. Each trade should be a separate section with subtotals.',
     status: 'conflicting',
-    appliedCount: 5
+    appliedCount: 5,
+    conflictDetails: {
+      conflictingWith: ['Required cost code structure'],
+      conflictingWithIds: ['1'],
+      conflictReason: 'Both instructions define structure for estimate organization. "Group line items by trade" requires trade-based grouping, while "Required cost code structure" requires phase-based CSI MasterFormat grouping. They cannot be applied simultaneously.'
+    }
   },
   {
     id: '4',
@@ -59,11 +64,12 @@ export const seedInstructions: Instruction[] = [
   },
   {
     id: '8',
-    title: 'Quality assurance checklist',
-    where: 'Other',
-    body: 'Before finalizing any document, verify: spelling, calculations, client name, project address, and all required signatures.',
+    title: 'Add company logo to proposal footer',
+    where: 'Proposals',
+    body: 'Always include the company logo image in the footer of every proposal. The logo should be centered and sized at 150px width. Use the file located at /assets/company-logo.png',
     status: 'invalid',
-    appliedCount: 0
+    appliedCount: 0,
+    invalidReason: 'Cannot insert image files or access file system paths. The system does not support image insertion or file system operations. Proposals can only include text-based content.'
   }
 ]
 

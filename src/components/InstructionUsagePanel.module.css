@@ -125,6 +125,21 @@
   background: #333;
 }
 
+.summarySection {
+  margin-bottom: 32px;
+}
+
+.historySection {
+  margin-top: 32px;
+}
+
+.sectionTitle {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0 0 16px 0;
+  color: #000;
+}
+
 .tableSection {
   margin-top: 24px;
 }
@@ -134,6 +149,26 @@
   font-weight: 600;
   margin: 0 0 16px 0;
   color: #000;
+}
+
+.appliedStatus {
+  display: inline-block;
+  padding: 4px 8px;
+  background: #e6f6e6;
+  color: #2d5016;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.skippedStatus {
+  display: inline-block;
+  padding: 4px 8px;
+  background: #ffebee;
+  color: #c62828;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
 }
 
 .table {

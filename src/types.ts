@@ -9,6 +9,12 @@ export interface Instruction {
   body: string
   status: InstructionStatus
   appliedCount: number
+  conflictDetails?: {
+    conflictingWith: string[]
+    conflictingWithIds?: string[]
+    conflictReason: string
+  }
+  invalidReason?: string
 }
 
 export interface InstructionExample {
