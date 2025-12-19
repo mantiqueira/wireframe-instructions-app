@@ -17,7 +17,7 @@ export default function Settings() {
   const [address, setAddress] = useState('Street of streets 1234')
 
   // Pricing presets
-  const [pricingMode, setPricingMode] = useState<'markup' | 'margin'>('margin')
+  const [pricingMode, setPricingMode] = useState<'markup' | 'margin' | 'disabled'>('margin')
   const [markupOption, setMarkupOption] = useState('Use defaults every time')
   const [laborMarkup, setLaborMarkup] = useState('30%')
   const [materialMarkup, setMaterialMarkup] = useState('15%')
@@ -74,27 +74,32 @@ export default function Settings() {
         </div>
       </section>
 
-      {/* Pricing presets */}
+      {/* Pricing method */}
       <section className={styles.section}>
-        <h2 className={styles.sectionTitle}>Pricing presets</h2>
+        <h2 className={styles.sectionTitle}>Pricing method</h2>
+        <p className={styles.sectionSubtitle}>Choose how prices are calculated and set the defaults and limits that apply to all projects.</p>
         
         <div className={styles.settingsCard}>
           <div className={styles.settingRow}>
             <div className={styles.settingInfo}>
               <h3 className={styles.settingTitle}>
-                {pricingMode === 'markup' ? 'Markup' : 'Profit margin limit'}
+                {pricingMode === 'markup' ? 'Markup' : pricingMode === 'margin' ? 'Profit margin limit' : 'Disabled'}
               </h3>
               <p className={styles.settingDescription}>
                 {pricingMode === 'markup' 
                   ? 'Configure labor, material, and other markup percentages. Markups add a percentage to costs.'
-                  : 'Set minimum profit margin percentage. Profit margins set target percentages of total price.'
+                  : pricingMode === 'margin'
+                  ? 'Set minimum profit margin percentage. Profit margins set target percentages of total price.'
+                  : 'Pricing calculations are disabled. No automatic pricing will be applied to projects.'
                 }
               </p>
             </div>
             <button className={styles.customizeButton} onClick={() => setShowPricingModal(true)}>
               {pricingMode === 'markup' 
                 ? `${laborMarkup} / ${materialMarkup} / ${laborMaterialMarkup} / ${otherMarkup}`
-                : `Min: ${minProfitMargin}`
+                : pricingMode === 'margin'
+                ? `Min: ${minProfitMargin}`
+                : 'Disabled'
               }
             </button>
           </div>

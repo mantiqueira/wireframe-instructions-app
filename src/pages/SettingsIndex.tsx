@@ -10,13 +10,13 @@ export default function SettingsIndex() {
       <div className={styles.header}>
         <div className={styles.logoSection}>
           <div className={styles.logoPlaceholder}>
-            <span className={styles.logoIcon}>🏠</span>
+            <span className={styles.logoText}>ACME</span>
           </div>
           <div className={styles.logoActions}>
             <button className={styles.logoAction}>Edit Logo</button>
             <button className={styles.logoAction}>Delete Logo</button>
           </div>
-          <h1 className={styles.companyName}>Summit Construction Group</h1>
+          <h1 className={styles.companyName}>Acme Construction</h1>
         </div>
       </div>
 

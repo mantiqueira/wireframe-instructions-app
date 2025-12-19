@@ -94,7 +94,7 @@ export default function WarningBanner({
       return (
         <div>
           <p style={{ marginBottom: '0', color: '#666' }}>
-            This instruction can't be applied: {instruction.invalidReason}
+            {instruction.invalidReason}
           </p>
         </div>
       )
@@ -106,11 +106,8 @@ export default function WarningBanner({
     } else {
       return (
         <div>
-          <p style={{ marginBottom: '12px', color: '#666' }}>
-            This instruction can't be executed as written.
-          </p>
-          <p style={{ marginBottom: '0', fontSize: '13px', color: '#666' }}>
-            Update the instruction to use valid references and follow the required format.
+          <p style={{ marginBottom: '0', color: '#666' }}>
+            This instruction is not supported - it's not possible.
           </p>
         </div>
       )

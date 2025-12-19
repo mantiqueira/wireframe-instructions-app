@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import styles from './SettingsModal.module.css'
 
-type PricingMode = 'markup' | 'margin'
+type PricingMode = 'markup' | 'margin' | 'disabled'
 
 interface PricingModalProps {
   mode: PricingMode
@@ -75,24 +75,40 @@ export default function PricingModal({
         </div>
 
         <div className={styles.content}>
-          {/* Mode Toggle - Segment Control */}
+          {/* Mode Toggle - Radio Buttons */}
           <div className={styles.formField}>
             <label className={styles.label}>Pricing mode</label>
-            <div className={styles.segmentControl}>
-              <button
-                type="button"
-                className={`${styles.segmentButton} ${mode === 'markup' ? styles.segmentButtonActive : ''}`}
-                onClick={() => setMode('markup')}
-              >
-                Markups
-              </button>
-              <button
-                type="button"
-                className={`${styles.segmentButton} ${mode === 'margin' ? styles.segmentButtonActive : ''}`}
-                onClick={() => setMode('margin')}
-              >
-                Profit margins
-              </button>
+            <div className={styles.radioGroup}>
+              <label className={styles.radioOption}>
+                <input
+                  type="radio"
+                  name="pricingMode"
+                  value="markup"
+                  checked={mode === 'markup'}
+                  onChange={() => setMode('markup')}
+                />
+                <span>Markup</span>
+              </label>
+              <label className={styles.radioOption}>
+                <input
+                  type="radio"
+                  name="pricingMode"
+                  value="margin"
+                  checked={mode === 'margin'}
+                  onChange={() => setMode('margin')}
+                />
+                <span>Profit margin</span>
+              </label>
+              <label className={styles.radioOption}>
+                <input
+                  type="radio"
+                  name="pricingMode"
+                  value="disabled"
+                  checked={mode === 'disabled'}
+                  onChange={() => setMode('disabled')}
+                />
+                <span>Disabled</span>
+              </label>
             </div>
           </div>
 
@@ -183,6 +199,15 @@ export default function PricingModal({
               </div>
               <p className={styles.explanation}>
                 Set the minimum profit margin percentage for all projects. This ensures projects meet your minimum profitability requirements.
+              </p>
+            </div>
+          )}
+
+          {/* Disabled Section */}
+          {mode === 'disabled' && (
+            <div className={styles.formField}>
+              <p className={styles.explanation}>
+                Pricing calculations are disabled. No automatic pricing will be applied to projects.
               </p>
             </div>
           )}

@@ -430,12 +430,19 @@
   overflow: hidden;
 }
 
+.radioGroup {
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+}
+
 .radioOption {
   display: flex;
   align-items: center;
   padding: 10px 12px;
   cursor: pointer;
   transition: background 0.2s;
+  border-radius: 4px;
 }
 
 .radioOption:hover {
@@ -446,6 +453,13 @@
   margin-right: 8px;
   cursor: pointer;
   accent-color: #4caf50;
+  width: 16px;
+  height: 16px;
+}
+
+.radioOption span {
+  font-size: 14px;
+  color: #000;
 }
 
 .addPaymentButton {
