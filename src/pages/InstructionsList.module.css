@@ -2,24 +2,6 @@
   width: 100%;
 }
 
-.backButtonContainer {
-  margin-bottom: 24px;
-}
-
-.backButton {
-  background: none;
-  border: none;
-  color: #666;
-  font-size: 14px;
-  cursor: pointer;
-  padding: 8px 0;
-  font-family: inherit;
-}
-
-.backButton:hover {
-  color: #000;
-}
-
 .header {
   display: flex;
   justify-content: space-between;

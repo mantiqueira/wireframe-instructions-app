@@ -89,7 +89,7 @@ export default function Settings() {
                   ? 'Configure labor, material, and other markup percentages. Markups add a percentage to costs.'
                   : pricingMode === 'margin'
                   ? 'Set minimum profit margin percentage. Profit margins set target percentages of total price.'
-                  : 'Pricing calculations are disabled. No automatic pricing will be applied to projects.'
+                  : 'Pricing calculations are disabled. The system will use the last pricing values you entered for each project, allowing you to set prices manually without automatic calculations.'
                 }
               </p>
             </div>

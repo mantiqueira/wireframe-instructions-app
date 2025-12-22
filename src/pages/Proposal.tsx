@@ -1,4 +1,5 @@
 import { useState, useRef } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useClientMessageTemplates } from '../context/ClientMessageTemplatesContext'
 import TemplateDropdown from '../components/TemplateDropdown'
 import MessageLoadingState from '../components/MessageLoadingState'
@@ -7,9 +8,10 @@ import { useAutoResizeTextarea } from '../hooks/useAutoResizeTextarea'
 import styles from './Proposal.module.css'
 
 export default function Proposal() {
+  const navigate = useNavigate()
   const { templates, duplicateTemplate, deleteTemplate } = useClientMessageTemplates()
   const [selectedTemplateId, setSelectedTemplateId] = useState<string | null>(null)
-  const [message, setMessage] = useState('We are delighted to work with you on turning your project dreams into reality. Our goal is to make this process as smooth and transparent as possible for you. Our estimate includes comprehensive demolition, drywall installation, electrical work, fixture installation, painting, plumbing, and tile work. Please take your time to review the estimate and let us know if you have any questions or need further clarification. Our goal is to ensure that you feel confident and comfortable with every aspect of the project. We value your trust and are committed to delivering the highest quality of work. Looking forward to starting this exciting project together.')
+  const [message, setMessage] = useState('Thank you for considering our services. We are excited about the opportunity to work with you on this project. Please review the estimate below and let us know if you have any questions or would like to discuss any details.')
   const [isLoading, setIsLoading] = useState(false)
   const [editingTemplateId, setEditingTemplateId] = useState<string | null>(null)
   const messageTextareaRef = useRef<HTMLTextAreaElement>(null)
@@ -51,7 +53,9 @@ export default function Proposal() {
     <div className={styles.container}>
       <div className={styles.header}>
         <div className={styles.headerLeft}>
-          <span className={styles.backArrow}>←</span>
+          <button className={styles.backButton} onClick={() => navigate('/')}>
+            ← Back
+          </button>
           <span className={styles.projectTitle}>EST-10027 3x5 Bathroom Remodel - Standard Finishes</span>
         </div>
         <div className={styles.headerRight}>
@@ -91,13 +95,9 @@ export default function Proposal() {
         </div>
 
         <div className={styles.clientMessageSection}>
-          <div className={styles.clientMessageHeader}>
-            <h2 className={styles.sectionTitle}>Client message</h2>
-            <button className={styles.menuButton}>⋯</button>
-          </div>
           <div className={styles.messageContainer}>
             <div className={styles.messageHeader}>
-              <span className={styles.messageLabel}>Client message (AI gen)</span>
+              <span className={styles.messageLabel}>Client message</span>
               <div className={styles.templateDropdownWrapper}>
                 <TemplateDropdown
                   templates={templates}

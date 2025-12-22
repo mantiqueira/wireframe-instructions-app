@@ -19,10 +19,23 @@
   gap: 12px;
 }
 
-.backArrow {
-  font-size: 18px;
-  color: #000;
+.backButton {
+  background: none;
+  border: none;
+  color: #666;
+  font-size: 14px;
   cursor: pointer;
+  padding: 4px 8px;
+  margin-right: 12px;
+  font-family: inherit;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  transition: color 0.2s;
+}
+
+.backButton:hover {
+  color: #000;
 }
 
 .projectTitle {

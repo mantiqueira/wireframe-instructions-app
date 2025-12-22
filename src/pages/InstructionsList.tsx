@@ -110,11 +110,6 @@ export default function InstructionsList() {
 
   return (
     <div className={styles.container}>
-      <div className={styles.backButtonContainer}>
-        <button className={styles.backButton} onClick={() => navigate('/settings')}>
-          ← Back to Settings
-        </button>
-      </div>
       <div className={styles.header}>
         <div className={styles.headerLeft}>
           <h1 className={styles.title}>Instructions</h1>

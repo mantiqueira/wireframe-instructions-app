@@ -29,57 +29,33 @@ export default function Layout({ children }: LayoutProps) {
     }
   }
 
-  const getBreadcrumb = () => {
-    if (location.pathname === '/') {
-      return 'Home'
-    } else if (location.pathname === '/settings') {
-      return 'Settings'
-    } else if (location.pathname === '/settings/general') {
-      return (
-        <>
-          <Link to="/settings" className={styles.breadcrumbLink}>
-            Settings
-          </Link>
-          {' / '}
-          <span>General settings</span>
-        </>
-      )
-    } else if (location.pathname === '/settings/ai-presets/instructions') {
-      return (
-        <>
-          <Link to="/settings" className={styles.breadcrumbLink}>
-            Settings
-          </Link>
-          {' / '}
-          <Link to="/settings/ai-presets/instructions" className={styles.breadcrumbLink}>
-            AI presets
-          </Link>
-          {' / '}
-          <span>Instructions</span>
-        </>
-      )
-    } else if (location.pathname === '/settings/ai-presets/instructions/new') {
-      return (
-        <>
-          <Link to="/settings" className={styles.breadcrumbLink}>
-            Settings
-          </Link>
-          {' / '}
-          <Link to="/settings/ai-presets/instructions" className={styles.breadcrumbLink}>
-            AI presets / Instructions
-          </Link>
-          {' / '}
-          <span>New</span>
-        </>
-      )
-    } else if (location.pathname === '/proposal') {
-      return 'Proposal / Client Message'
-    } else if (location.pathname === '/settings/client-message-templates') {
-      return 'Settings / Client Message Templates'
-    } else if (location.pathname === '/ai-docs') {
-      return 'AI docs templates'
+  const getBackPath = () => {
+    const path = location.pathname
+    
+    // Pages with their own toolbars/headers handle back button themselves
+    if (path === '/' || path === '/proposal' || path === '/ai-docs' || path === '/settings/client-message-templates' || path === '/estimate-feedback') {
+      return null
+    } else if (path === '/settings') {
+      return '/'
+    } else if (path === '/settings/general') {
+      return '/settings'
+    } else if (path === '/settings/ai-presets/instructions/new') {
+      return '/settings/ai-presets/instructions'
+    } else if (path === '/settings/ai-presets/instructions') {
+      return '/settings'
     }
-    return 'Home'
+    
+    // Default: go back in history or home
+    return '/'
+  }
+
+  const handleBack = () => {
+    const backPath = getBackPath()
+    if (backPath) {
+      navigate(backPath)
+    } else {
+      navigate(-1) // Go back in browser history
+    }
   }
 
   return (
@@ -94,7 +70,13 @@ export default function Layout({ children }: LayoutProps) {
         </button>
       </div>
       <div className={styles.main}>
-        <div className={styles.breadcrumb}>{getBreadcrumb()}</div>
+        {getBackPath() !== null && (
+          <div className={styles.headerBar}>
+            <button className={styles.backButton} onClick={handleBack}>
+              ← Back
+            </button>
+          </div>
+        )}
         <div className={styles.content}>
           <PageTransition key={location.pathname}>{children}</PageTransition>
         </div>

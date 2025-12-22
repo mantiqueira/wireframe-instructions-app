@@ -1,4 +1,5 @@
 import { useState, useRef } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useClientMessageTemplates } from '../context/ClientMessageTemplatesContext'
 import TemplateDropdown from '../components/TemplateDropdown'
 import MessageLoadingState from '../components/MessageLoadingState'
@@ -9,9 +10,10 @@ import { useAutoResizeTextarea } from '../hooks/useAutoResizeTextarea'
 import styles from './ClientMessageTemplates.module.css'
 
 export default function ClientMessageTemplates() {
+  const navigate = useNavigate()
   const { templates, duplicateTemplate, deleteTemplate } = useClientMessageTemplates()
   const [selectedTemplateId, setSelectedTemplateId] = useState<string | null>(null)
-  const [message, setMessage] = useState('')
+  const [message, setMessage] = useState('Thank you for considering our services. We are excited about the opportunity to work with you on this project. Please review the estimate below and let us know if you have any questions or would like to discuss any details.')
   const [isLoading, setIsLoading] = useState(false)
   const [editingTemplateId, setEditingTemplateId] = useState<string | null>(null)
   const [showExamplesModal, setShowExamplesModal] = useState(false)
@@ -63,7 +65,9 @@ export default function ClientMessageTemplates() {
     <div className={styles.container}>
       <div className={styles.header}>
         <div className={styles.headerLeft}>
-          <span className={styles.backArrow}>←</span>
+          <button className={styles.backButton} onClick={() => navigate('/settings')}>
+            ← Back
+          </button>
           <span className={styles.projectTitle}>EST-10200 Bathroom Remodel - Smith's House</span>
         </div>
         <div className={styles.headerRight}>
@@ -117,13 +121,9 @@ export default function ClientMessageTemplates() {
         </div>
 
         <div className={styles.clientMessageSection}>
-          <div className={styles.clientMessageHeader}>
-            <h2 className={styles.sectionTitle}>Client message</h2>
-            <button className={styles.menuButton}>⋯</button>
-          </div>
           <div className={styles.messageContainer}>
             <div className={styles.messageHeader}>
-              <span className={styles.messageLabel}>Client message (AI gen)</span>
+              <span className={styles.messageLabel}>Client message</span>
               <div className={styles.templateDropdownWrapper}>
                 <TemplateDropdown
                   templates={templates}

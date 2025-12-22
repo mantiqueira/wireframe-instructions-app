@@ -1,0 +1,402 @@
+.container {
+  display: flex;
+  width: 100%;
+  background: white;
+  min-height: 100vh;
+}
+
+.mainContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 24px;
+  border-bottom: 1px solid #ddd;
+  background: white;
+}
+
+.headerLeft {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.headerRight {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.backButton,
+.undoButton,
+.redoButton,
+.menuButton,
+.bookmarkButton,
+.hamburgerButton {
+  background: none;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 6px 8px;
+  color: #000;
+  font-family: inherit;
+}
+
+.backButton:hover,
+.undoButton:hover,
+.redoButton:hover,
+.menuButton:hover,
+.bookmarkButton:hover,
+.hamburgerButton:hover {
+  background: #f5f5f5;
+  border-radius: 4px;
+}
+
+.editColumnsButton {
+  padding: 6px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: white;
+  font-size: 14px;
+  font-family: inherit;
+  cursor: pointer;
+  color: #000;
+}
+
+.editColumnsButton:hover {
+  background: #fafafa;
+}
+
+.convertButton {
+  padding: 6px 12px;
+  border: 1px solid #4caf50;
+  border-radius: 4px;
+  background: #4caf50;
+  color: white;
+  font-size: 14px;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.convertButton:hover {
+  background: #45a049;
+}
+
+.content {
+  padding: 24px 40px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.projectId {
+  font-size: 12px;
+  color: #666;
+  margin-bottom: 8px;
+}
+
+.projectTitle {
+  font-size: 28px;
+  font-weight: bold;
+  margin: 0 0 16px 0;
+  color: #000;
+}
+
+.badges {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: white;
+  font-size: 14px;
+}
+
+.badgeIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #ff9800;
+  color: white;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.badgeLogo {
+  font-weight: 600;
+  color: #0066cc;
+}
+
+.badgeText {
+  color: #000;
+}
+
+.badgeWarning {
+  padding: 6px 12px;
+  border-radius: 4px;
+  background: #fff3e0;
+  color: #e65100;
+  font-size: 14px;
+  font-weight: 500;
+  margin-left: auto;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.badgeWarning:hover {
+  background: #ffe0b2;
+}
+
+.tableContainer {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 24px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+}
+
+.table thead {
+  background: #f5f5f5;
+}
+
+.table th {
+  padding: 12px 16px;
+  text-align: left;
+  font-size: 12px;
+  font-weight: 600;
+  color: #666;
+  text-transform: uppercase;
+  border-bottom: 1px solid #ddd;
+}
+
+.table td {
+  padding: 12px 16px;
+  font-size: 14px;
+  color: #000;
+  border-bottom: 1px solid #eee;
+}
+
+.table tbody tr:hover {
+  background: #fafafa;
+}
+
+.sortIcon {
+  margin-left: 4px;
+  color: #999;
+  font-size: 10px;
+}
+
+.phaseRow {
+  background: #f9f9f9;
+}
+
+.phaseRow td {
+  padding: 0;
+  border-bottom: 1px solid #ddd;
+}
+
+.phaseHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  font-weight: 600;
+  font-size: 14px;
+  color: #000;
+}
+
+.phaseItemCount {
+  color: #666;
+  font-weight: normal;
+  font-size: 13px;
+}
+
+.phaseTotal {
+  margin-left: auto;
+  color: #000;
+  font-weight: 600;
+}
+
+.summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background: #f9f9f9;
+  border-radius: 4px;
+}
+
+.showBreakdownButton {
+  padding: 8px 16px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: white;
+  font-size: 14px;
+  font-family: inherit;
+  cursor: pointer;
+  color: #000;
+}
+
+.showBreakdownButton:hover {
+  background: #fafafa;
+}
+
+.summaryStats {
+  display: flex;
+  gap: 32px;
+  align-items: center;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.statLabel {
+  font-size: 12px;
+  color: #666;
+}
+
+.statValue {
+  font-size: 16px;
+  font-weight: 600;
+  color: #000;
+}
+
+.stat:first-child .statValue {
+  color: #4caf50;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+
+.sidePanel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 400px;
+  background: white;
+  box-shadow: -2px 0 8px rgba(0, 0, 0, 0.1);
+  z-index: 1001;
+  display: flex;
+  flex-direction: column;
+}
+
+.panelHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px;
+  border-bottom: 1px solid #eee;
+}
+
+.panelTitle {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0;
+  color: #000;
+}
+
+.panelCloseButton {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+  border-radius: 4px;
+}
+
+.panelCloseButton:hover {
+  background: #f5f5f5;
+  color: #000;
+}
+
+.panelContent {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+}
+
+.missingList {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 24px 0;
+}
+
+.missingList li {
+  padding: 12px 0;
+  border-bottom: 1px solid #eee;
+  font-size: 14px;
+  color: #333;
+  line-height: 1.5;
+}
+
+.missingList li:last-child {
+  border-bottom: none;
+}
+
+.missingList li::before {
+  content: '•';
+  color: #e65100;
+  font-weight: bold;
+  display: inline-block;
+  width: 20px;
+  margin-right: 8px;
+}
+
+.answerButton {
+  width: 100%;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 4px;
+  background: #4caf50;
+  color: white;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.answerButton:hover {
+  background: #45a049;
+}
+

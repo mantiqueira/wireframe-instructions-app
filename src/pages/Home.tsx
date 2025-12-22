@@ -15,6 +15,9 @@ export default function Home() {
       <div className={styles.card} onClick={() => navigate('/settings/client-message-templates')}>
         <div className={styles.cardText}>Client message templates</div>
       </div>
+      <div className={styles.card} onClick={() => navigate('/estimate-feedback')}>
+        <div className={styles.cardText}>Estimate feedback</div>
+      </div>
     </div>
   )
 }

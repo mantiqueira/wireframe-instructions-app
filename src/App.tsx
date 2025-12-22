@@ -5,6 +5,7 @@ import { AIDocsTemplatesProvider } from './context/AIDocsTemplatesContext'
 import Layout from './components/Layout'
 import Home from './pages/Home'
 import SettingsIndex from './pages/SettingsIndex'
+import EstimateFeedback from './pages/EstimateFeedback'
 import GeneralSettings from './pages/GeneralSettings'
 import AIPresets from './pages/AIPresets'
 import InstructionsList from './pages/InstructionsList'
@@ -30,6 +31,7 @@ function App() {
               <Route path="/proposal" element={<Proposal />} />
               <Route path="/settings/client-message-templates" element={<ClientMessageTemplates />} />
               <Route path="/ai-docs" element={<AIDocs />} />
+              <Route path="/estimate-feedback" element={<EstimateFeedback />} />
             </Routes>
           </Layout>
         </AIDocsTemplatesProvider>

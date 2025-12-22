@@ -38,3 +38,16 @@
   color: #000;
 }
 
+.section {
+  width: 100%;
+  max-width: 1400px;
+  margin-top: 40px;
+}
+
+.sectionTitle {
+  font-size: 24px;
+  font-weight: bold;
+  margin: 0 0 24px 0;
+  color: #000;
+}
+

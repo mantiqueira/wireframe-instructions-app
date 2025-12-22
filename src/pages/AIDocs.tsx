@@ -1,4 +1,5 @@
 import { useState, useRef } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useAIDocsTemplates } from '../context/AIDocsTemplatesContext'
 import TemplateDropdown from '../components/TemplateDropdown'
 import MessageLoadingState from '../components/MessageLoadingState'
@@ -9,6 +10,7 @@ import { useAutoResizeTextarea } from '../hooks/useAutoResizeTextarea'
 import styles from './AIDocs.module.css'
 
 export default function AIDocs() {
+  const navigate = useNavigate()
   const { templates, duplicateTemplate, deleteTemplate } = useAIDocsTemplates()
   const [selectedTemplateId, setSelectedTemplateId] = useState<string | null>(null)
   const [document, setDocument] = useState('')
@@ -111,7 +113,9 @@ Rough Plumbing Installation
     <div className={styles.container}>
       <div className={styles.toolbar}>
         <div className={styles.toolbarLeft}>
-          <button className={styles.toolbarButton}>←</button>
+          <button className={styles.toolbarButton} onClick={() => navigate('/')}>
+            ← Back
+          </button>
         </div>
         <div className={styles.toolbarCenter}>
           <button className={styles.toolbarButton}>

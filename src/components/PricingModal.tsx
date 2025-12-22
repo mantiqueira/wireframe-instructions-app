@@ -115,33 +115,14 @@ export default function PricingModal({
           {/* Markup Section */}
           {mode === 'markup' && (
             <>
-              <div className={styles.formField}>
-                <label className={styles.label}>Markup option</label>
-                <select
-                  className={styles.select}
-                  value={markupOption}
-                  onChange={(e) => setMarkupOption(e.target.value)}
-                >
-                  <option>Use defaults every time</option>
-                  <option>Use the last used values</option>
-                </select>
-                <p className={styles.explanation}>
-                  {markupOption === 'Use defaults every time' 
-                    ? 'Set the default markup values that will be used for all projects.'
-                    : 'The last used markup values will be automatically applied to new projects.'
-                  }
-                </p>
-              </div>
-
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginTop: '16px' }}>
-                <div className={styles.formField}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+                  <div className={styles.formField}>
                   <label className={styles.label}>Labor markup</label>
                   <input
                     type="text"
                     className={styles.input}
                     value={laborMarkup}
                     onChange={(e) => setLaborMarkup(e.target.value)}
-                    disabled={markupOption === 'Use the last used values'}
                   />
                 </div>
 
@@ -152,7 +133,6 @@ export default function PricingModal({
                     className={styles.input}
                     value={materialMarkup}
                     onChange={(e) => setMaterialMarkup(e.target.value)}
-                    disabled={markupOption === 'Use the last used values'}
                   />
                 </div>
 
@@ -163,7 +143,6 @@ export default function PricingModal({
                     className={styles.input}
                     value={laborMaterialMarkup}
                     onChange={(e) => setLaborMaterialMarkup(e.target.value)}
-                    disabled={markupOption === 'Use the last used values'}
                   />
                 </div>
 
@@ -174,7 +153,6 @@ export default function PricingModal({
                     className={styles.input}
                     value={otherMarkup}
                     onChange={(e) => setOtherMarkup(e.target.value)}
-                    disabled={markupOption === 'Use the last used values'}
                   />
                 </div>
               </div>
@@ -207,7 +185,7 @@ export default function PricingModal({
           {mode === 'disabled' && (
             <div className={styles.formField}>
               <p className={styles.explanation}>
-                Pricing calculations are disabled. No automatic pricing will be applied to projects.
+                Pricing calculations are disabled. The system will use the last pricing values you entered for each project, allowing you to set prices manually without automatic calculations.
               </p>
             </div>
           )}
