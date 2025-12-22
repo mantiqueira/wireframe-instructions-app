@@ -41,7 +41,7 @@ export default function InstructionCard({
       case 'conflicting':
         return 'Conflicting instructions'
       case 'invalid':
-        return 'Invalid instructions'
+        return 'Not supported'
       default:
         return 'Active'
     }
@@ -124,7 +124,7 @@ export default function InstructionCard({
                 See usage
               </button>
               <button className={styles.menuItem} onClick={handleToggle}>
-                {instruction.status === 'disabled' ? 'Enable instruction' : 'Disable instruction'}
+                {instruction.status === 'disabled' ? 'Use instruction' : "Don't use instruction"}
               </button>
               <button className={styles.menuItem} onClick={handleDelete}>
                 Delete instruction

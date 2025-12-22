@@ -8,22 +8,27 @@ interface WarningBannerProps {
   instruction?: Instruction
   allInstructions?: Instruction[]
   onSuggestFix?: (instructionId: string) => void
+  onApplyFix?: (instructionId: string, fixedBody: string) => void
+  onDeleteConflicting?: (instructionId: string) => void
 }
 
 export default function WarningBanner({ 
   type, 
   instruction, 
   allInstructions = [],
-  onSuggestFix
+  onSuggestFix,
+  onApplyFix,
+  onDeleteConflicting
 }: WarningBannerProps) {
   const [isExpanded, setIsExpanded] = useState(true)
   const [isSuggesting, setIsSuggesting] = useState(false)
+  const [suggestedFix, setSuggestedFix] = useState<string | null>(null)
   const navigate = useNavigate()
 
   const getTitle = () => {
     return type === 'conflicting'
       ? 'This instruction is conflicting'
-      : 'This instruction is invalid'
+      : 'This instruction is not supported'
   }
 
   const handleSuggestFix = async () => {
@@ -33,9 +38,27 @@ export default function WarningBanner({
     // Simulate AI analysis - in real app, this would call an API
     await new Promise(resolve => setTimeout(resolve, 1500))
     
+    // Generate a suggested fix
+    const fix = `Group line items by trade, but organize them within the required cost code structure (CSI MasterFormat phases). This allows trade-based grouping while maintaining phase-based organization.`
+    setSuggestedFix(fix)
+    
     // Call the suggestion handler
     onSuggestFix(instruction.id)
     setIsSuggesting(false)
+  }
+
+  const handleApplyFix = () => {
+    if (!instruction || !suggestedFix || !onApplyFix) return
+    onApplyFix(instruction.id, suggestedFix)
+    setSuggestedFix(null)
+  }
+
+  const handleDeleteConflicting = () => {
+    if (!instruction?.conflictDetails?.conflictingWithIds || !onDeleteConflicting) return
+    const conflictingId = instruction.conflictDetails.conflictingWithIds[0]
+    if (conflictingId) {
+      onDeleteConflicting(conflictingId)
+    }
   }
 
   const getConflictingInstructions = () => {
@@ -54,40 +77,71 @@ export default function WarningBanner({
       
       return (
         <div>
-          <p style={{ marginBottom: '12px', fontWeight: 'bold' }}>
-            {instruction.title} conflicts with {conflictingWith.length === 1 ? 'instruction' : 'instructions'}:
-          </p>
-          <div style={{ marginBottom: '12px' }}>
+          <p style={{ marginBottom: '8px', color: '#666' }}>
+            This instruction cannot be applied because it conflicts with {conflictingWith.length === 1 ? 'instruction' : 'instructions'}:{' '}
             {conflictingInstructions.length > 0 ? (
-              conflictingInstructions.map((conflictingInst) => (
-                <a
-                  key={conflictingInst.id}
-                  href={`/settings/ai-presets/instructions/new?id=${conflictingInst.id}`}
-                  onClick={(e) => {
-                    e.preventDefault()
-                    navigate(`/settings/ai-presets/instructions/new?id=${conflictingInst.id}`)
-                  }}
-                  className={styles.conflictLink}
-                >
-                  → {conflictingInst.title}
-                </a>
+              conflictingInstructions.map((conflictingInst, index) => (
+                <span key={conflictingInst.id}>
+                  <a
+                    href={`/settings/ai-presets/instructions/new?id=${conflictingInst.id}`}
+                    onClick={(e) => {
+                      e.preventDefault()
+                      navigate(`/settings/ai-presets/instructions/new?id=${conflictingInst.id}`)
+                    }}
+                    className={styles.conflictLink}
+                  >
+                    {conflictingInst.title}
+                  </a>
+                  {index < conflictingInstructions.length - 1 && ', '}
+                </span>
               ))
             ) : (
               <span>{conflictingWith.join(', ')}</span>
             )}
+          </p>
+          <p style={{ marginBottom: '16px', color: '#666' }}>{conflictReason}</p>
+          
+          <div style={{ borderTop: '1px solid #ddd', marginTop: '16px', paddingTop: '16px' }}>
+            <p style={{ marginBottom: '12px', fontWeight: '600', color: '#000' }}>How to fix it:</p>
+            
+            {!suggestedFix ? (
+              onSuggestFix && (
+                <div className={styles.actionButtons}>
+                  <button
+                    className={styles.actionButton}
+                    onClick={handleSuggestFix}
+                    disabled={isSuggesting}
+                  >
+                    {isSuggesting ? 'Analyzing...' : '✨ Suggest fix'}
+                  </button>
+                </div>
+              )
+            ) : (
+              <div>
+                <p style={{ marginBottom: '12px', color: '#666', fontStyle: 'italic' }}>
+                  {suggestedFix}
+                </p>
+                <div className={styles.actionButtons} style={{ display: 'flex', gap: '8px' }}>
+                  {onApplyFix && (
+                    <button
+                      className={styles.applyButton}
+                      onClick={handleApplyFix}
+                    >
+                      Apply fixes
+                    </button>
+                  )}
+                  {onDeleteConflicting && (
+                    <button
+                      className={styles.deleteButton}
+                      onClick={handleDeleteConflicting}
+                    >
+                      Delete previous instruction
+                    </button>
+                  )}
+                </div>
+              </div>
+            )}
           </div>
-          <p style={{ marginBottom: '16px' }}>{conflictReason}</p>
-          {onSuggestFix && (
-            <div className={styles.actionButtons}>
-              <button
-                className={styles.actionButton}
-                onClick={handleSuggestFix}
-                disabled={isSuggesting}
-              >
-                {isSuggesting ? 'Analyzing...' : '✨ Suggest change'}
-              </button>
-            </div>
-          )}
         </div>
       )
     } else if (type === 'invalid' && instruction?.invalidReason) {

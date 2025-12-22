@@ -89,7 +89,6 @@ export default function QuestionComponent({ onClose, onUpdate }: QuestionCompone
                           checked={answers[q.id]?.includes(subOption) || false}
                           onChange={(e) => {
                             const base = answers[q.id]?.split(',')[0] || ''
-                            const current = answers[q.id] || ''
                             if (e.target.checked) {
                               handleAnswerChange(q.id, base ? `${base}, ${subOption}` : subOption)
                             } else {
