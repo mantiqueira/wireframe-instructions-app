@@ -30,6 +30,8 @@ export default function TemplateEditorModal({ templateId, onClose, initialTempla
   const [prompt, setPrompt] = useState('')
   const [history, setHistory] = useState<string[]>([''])
   const [historyIndex, setHistoryIndex] = useState(0)
+  const [isTesting, setIsTesting] = useState(false)
+  const [showPreview, setShowPreview] = useState(false)
 
   const promptRef = useRef<HTMLTextAreaElement>(null)
 
@@ -92,6 +94,15 @@ export default function TemplateEditorModal({ templateId, onClose, initialTempla
       setHistoryIndex(newIndex)
       setPrompt(history[newIndex])
     }
+  }
+
+  const handleTest = () => {
+    setIsTesting(true)
+    setShowPreview(false)
+    setTimeout(() => {
+      setIsTesting(false)
+      setShowPreview(true)
+    }, 1500)
   }
 
   const handleSave = () => {
@@ -170,6 +181,13 @@ export default function TemplateEditorModal({ templateId, onClose, initialTempla
                   <button className={styles.secondaryButton} onClick={onClose}>
                     Cancel
                   </button>
+                  <button 
+                    className={styles.secondaryButton} 
+                    onClick={handleTest}
+                    disabled={isTesting}
+                  >
+                    Test template
+                  </button>
                   <button className={styles.primaryButton} onClick={handleSave}>
                     Save
                   </button>
@@ -180,9 +198,25 @@ export default function TemplateEditorModal({ templateId, onClose, initialTempla
             <div className={styles.rightPanel}>
               <div className={styles.previewLabel}>Preview</div>
               <div className={styles.previewContent}>
-                <div className={styles.placeholder}>
-                  See your template in action
-                </div>
+                {isTesting ? (
+                  <div className={styles.loadingState}>
+                    <div className={styles.loadingText}>Running test…</div>
+                    <div className={styles.shimmer}></div>
+                  </div>
+                ) : showPreview ? (
+                  <div className={styles.previewBlock}>
+                    <p style={{ whiteSpace: 'pre-wrap', margin: 0, lineHeight: '1.6' }}>
+                      {prompt.replace(/\[client name\]/g, 'John Smith')
+                        .replace(/\[project type\]/g, 'kitchen renovation')
+                        .replace(/\[project location\]/g, '123 Main St, Miami, FL')
+                        .replace(/\[extra context\]/g, 'modern appliances and custom cabinetry')}
+                    </p>
+                  </div>
+                ) : (
+                  <div className={styles.placeholder}>
+                    See your template in action
+                  </div>
+                )}
               </div>
             </div>
           </div>
