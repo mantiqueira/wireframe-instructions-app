@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import EstimateCard from './EstimateCard'
 import styles from './ChatSidebar.module.css'
 
 interface Message {
@@ -6,6 +7,12 @@ interface Message {
   role: 'user' | 'assistant'
   content: string
   timestamp: Date
+  estimateCard?: {
+    estimateId: string
+    projectTitle: string
+    itemCount: number
+    total: string
+  }
 }
 
 interface ChatSidebarProps {
@@ -16,9 +23,21 @@ export default function ChatSidebar({ onAnswerQuestions }: ChatSidebarProps) {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',
-      role: 'assistant',
-      content: "That's a great project! Renovating bathrooms are always a great investment. Let me ask a few questions to help me understand the exact scope of this:",
+      role: 'user',
+      content: 'I need to remodel a 3x5 bathroom with standard finishes',
       timestamp: new Date()
+    },
+    {
+      id: '2',
+      role: 'assistant',
+      content: "That's a great project! I've created an estimate for your 3x5 bathroom remodel with standard finishes. The estimate includes comprehensive demolition, drywall installation, electrical work, fixture installation, painting, plumbing, and tile work. You'll have a bathroom renovation with significantly better quality materials while maintaining the same professional installation standards.",
+      timestamp: new Date(),
+      estimateCard: {
+        estimateId: 'EST-10027',
+        projectTitle: '3x5 Bathroom Remodel - Standard Finishes',
+        itemCount: 80,
+        total: '$29,462.16'
+      }
     }
   ])
   const [inputValue, setInputValue] = useState('')
@@ -63,12 +82,13 @@ export default function ChatSidebar({ onAnswerQuestions }: ChatSidebarProps) {
             )}
             <div className={styles.messageContent}>
               <p>{message.content}</p>
-              {message.role === 'assistant' && 
-               messages.length > 0 && 
-               messages[messages.length - 1].id === message.id && (
-                <button className={styles.answerButton} onClick={onAnswerQuestions}>
-                  Answer questions
-                </button>
+              {message.estimateCard && (
+                <EstimateCard
+                  estimateId={message.estimateCard.estimateId}
+                  projectTitle={message.estimateCard.projectTitle}
+                  itemCount={message.estimateCard.itemCount}
+                  total={message.estimateCard.total}
+                />
               )}
             </div>
           </div>

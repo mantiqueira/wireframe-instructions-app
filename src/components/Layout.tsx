@@ -58,17 +58,21 @@ export default function Layout({ children }: LayoutProps) {
     }
   }
 
+  const showSidebar = location.pathname !== '/estimate-feedback'
+  
   return (
     <div className={styles.container}>
-      <div className={styles.sidebar}>
-        <Link to="/" className={styles.sidebarLabel}>
-          <span className={styles.homeIcon}>🏠</span>
-          <span>Home</span>
-        </Link>
-        <button className={styles.resetButton} onClick={handleReset} title="Reset all data to initial state">
-          🔄 Reset
-        </button>
-      </div>
+      {showSidebar && (
+        <div className={styles.sidebar}>
+          <Link to="/" className={styles.sidebarLabel}>
+            <span className={styles.homeIcon}>🏠</span>
+            <span>Home</span>
+          </Link>
+          <button className={styles.resetButton} onClick={handleReset} title="Reset all data to initial state">
+            🔄 Reset
+          </button>
+        </div>
+      )}
       <div className={styles.main}>
         {getBackPath() !== null && (
           <div className={styles.headerBar}>
