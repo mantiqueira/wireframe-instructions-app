@@ -1,20 +1,28 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
-import ChatSidebar from '../components/ChatSidebar'
-import QuestionComponent from '../components/QuestionComponent'
+import ChatSidebar, { ChatSidebarRef } from '../components/ChatSidebar'
 import styles from './EstimateFeedback.module.css'
 
 export default function EstimateFeedback() {
   const navigate = useNavigate()
   const [showMissingPanel, setShowMissingPanel] = useState(false)
-  const [showQuestions, setShowQuestions] = useState(false)
+  const [isLoadingQuestions, setIsLoadingQuestions] = useState(false)
+  const chatSidebarRef = useRef<ChatSidebarRef>(null)
   
   const handleAnswerQuestions = () => {
-    setShowQuestions(true)
+    if (isLoadingQuestions) return
+    
+    setIsLoadingQuestions(true)
     setShowMissingPanel(false)
+    
+    // Simulate a small delay for the loading state
+    setTimeout(() => {
+      chatSidebarRef.current?.showQuestions()
+      setIsLoadingQuestions(false)
+    }, 500)
   }
 
-  const handleUpdate = (answers: Record<string, string>) => {
+  const handleUpdateAnswers = (answers: Record<string, string>) => {
     // Handle the answers and update estimate
     console.log('Answers:', answers)
     // Here you would update the estimate with the answers
@@ -22,7 +30,11 @@ export default function EstimateFeedback() {
   
   return (
     <div className={styles.container}>
-      <ChatSidebar onAnswerQuestions={handleAnswerQuestions} />
+      <ChatSidebar 
+        ref={chatSidebarRef}
+        onAnswerQuestions={handleAnswerQuestions}
+        onUpdateAnswers={handleUpdateAnswers}
+      />
       <div className={styles.mainContent}>
         <div className={styles.header}>
         <div className={styles.headerLeft}>
@@ -55,7 +67,7 @@ export default function EstimateFeedback() {
             <span className={styles.badgeText}>1 instruction</span>
           </div>
           <div className={styles.badgeWarning} onClick={() => setShowMissingPanel(true)}>
-            Missing for higher accuracy
+            Missing for high accuracy
           </div>
         </div>
 
@@ -154,11 +166,15 @@ export default function EstimateFeedback() {
 
       {showMissingPanel && (
         <>
-          <div className={styles.overlay} onClick={() => setShowMissingPanel(false)}></div>
+          <div className={styles.overlay} onClick={() => !isLoadingQuestions && setShowMissingPanel(false)}></div>
           <div className={styles.sidePanel}>
             <div className={styles.panelHeader}>
               <h2 className={styles.panelTitle}>Missing for higher accuracy</h2>
-              <button className={styles.panelCloseButton} onClick={() => setShowMissingPanel(false)}>×</button>
+              <button 
+                className={styles.panelCloseButton} 
+                onClick={() => !isLoadingQuestions && setShowMissingPanel(false)}
+                disabled={isLoadingQuestions}
+              >×</button>
             </div>
             <div className={styles.panelContent}>
               <ul className={styles.missingList}>
@@ -166,18 +182,18 @@ export default function EstimateFeedback() {
                 <li>Shower door type (framed vs semi-frameless vs frameless)</li>
                 <li>Tile size and pattern complexity (standard grid vs herringbone vs custom pattern)</li>
               </ul>
-              <button className={styles.answerButton} onClick={handleAnswerQuestions}>Answer question</button>
+              <button 
+                className={styles.answerButton} 
+                onClick={handleAnswerQuestions}
+                disabled={isLoadingQuestions}
+              >
+                {isLoadingQuestions ? 'Loading...' : 'Answer question'}
+              </button>
             </div>
           </div>
         </>
       )}
 
-      {showQuestions && (
-        <QuestionComponent
-          onClose={() => setShowQuestions(false)}
-          onUpdate={handleUpdate}
-        />
-      )}
       </div>
     </div>
   )

@@ -17,10 +17,6 @@ export default function EstimateCard({
 }: EstimateCardProps) {
   return (
     <div className={styles.card}>
-      <div className={styles.cardHeader}>
-        <button className={styles.minimizeButton}>▼</button>
-        <button className={styles.closeButton}>×</button>
-      </div>
       <div className={styles.cardContent}>
         <div className={styles.estimateId}>{estimateId}</div>
         <h3 className={styles.projectTitle}>{projectTitle}</h3>

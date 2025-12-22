@@ -81,7 +81,7 @@ export default function Layout({ children }: LayoutProps) {
             </button>
           </div>
         )}
-        <div className={styles.content}>
+        <div className={`${styles.content} ${location.pathname === '/estimate-feedback' ? styles.fullWidth : ''}`}>
           <PageTransition key={location.pathname}>{children}</PageTransition>
         </div>
       </div>

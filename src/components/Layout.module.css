@@ -96,3 +96,9 @@
   padding: 40px;
 }
 
+.content.fullWidth {
+  max-width: 100%;
+  padding: 0;
+  margin: 0;
+}
+
