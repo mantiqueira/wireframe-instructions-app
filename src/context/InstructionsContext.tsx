@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, ReactNode } from 'react'
-import { Instruction } from '../types'
+import { Instruction, InstructionStatus } from '../types'
 import { seedInstructions } from '../data/seedData'
 
 interface InstructionsContextType {
